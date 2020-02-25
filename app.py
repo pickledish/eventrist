@@ -78,12 +78,11 @@ async def root(stream_id: str, query: QueryDefinition):
 
   f_part = "\"{}\"".format(query.event_name)
 
-  filter_template = "\"{}\" = '{}'"
-  filters = [filter_template.format(k, v) for k, v in query.filters.items()]
+  filters = ["\"{}\" = '{}'".format(k, v) for k, v in query.filters.items()]
 
   w_part = " AND ".join([
-    '"time" >= {}'.format(query.start_time),
-    '"time" <= {}'.format(query.end_time),
+    '"time" >= {}'.format(query.start_time * 1000000), # stored influx as ns
+    '"time" <= {}'.format(query.end_time * 1000000), # stored influx as ns
     *filters
   ])
 
