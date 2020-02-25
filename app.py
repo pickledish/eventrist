@@ -59,7 +59,22 @@ async def root(stream_id: str, query: QueryDefinition):
   """
   template = "SELECT {} FROM {} WHERE {} GROUP BY {}"
 
-  s_part = "COUNT(*)" # TODO
+  aggr_dict = {
+    "cnt": "COUNT(*)",
+    "sum": "SUM(value)",
+    "avg": "AVG(value)",
+    "max": "MAX(value)",
+    "p50": "PERCENTILE(value, 50)",
+    "p75": "PERCENTILE(value, 75)",
+    "p90": "PERCENTILE(value, 90)",
+    "p95": "PERCENTILE(value, 95)",
+    "p99": "PERCENTILE(value, 99)"
+  }
+
+  s_part = aggr_dict.get(query.aggregation, None)
+
+  if s_part is None:
+    raise Exception("Invalid aggregation {}".format(query.aggregation))
 
   f_part = "\"{}\"".format(query.event_name)
 
