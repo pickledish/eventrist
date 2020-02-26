@@ -4,39 +4,63 @@
 
   export let name;
 
+  const apiURL = "http://127.0.0.1:8000/stream/abc/query";
+
   onMount(async () => {
+
+    const response = await fetch(apiURL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        'event_name': 'brandon-test',
+        'aggregation': 'p90',
+        'rollup': '2h',
+        'start_time': 1582581066832,
+        'end_time': 1582621270814
+      }),
+    })
+    var data = await response.json();
+
+    var times = data['series'][0]['values'].map(point => point[0])
+    var values = data['series'][0]['values'].map(point => point[1])
+    console.log(times)
+    console.log(values)
+
     var ctx = document.getElementById('myChart');
     var myChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
-        }]
+        labels: times.map(t => Date.parse(t)),
+        datasets: [
+          {
+            data: values.map(v => v || 0)
+          }
+        ]
       },
       options: {
+        fill: false,
+        responsive: true,
         scales: {
+          xAxes: [{
+            type: 'time',
+            display: true,
+            time: {
+              unit: 'hour',
+              unitStepSize: 1
+            },
+            scaleLabel: {
+              display: true,
+              labelString: "Date",
+            }
+          }],
           yAxes: [{
             ticks: {
-              beginAtZero: true
+              beginAtZero: true,
+            },
+            display: true,
+            scaleLabel: {
+              display: true,
+              labelString: "brandon-test",
             }
           }]
         }

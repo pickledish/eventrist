@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from influxdb import InfluxDBClient
 from pydantic import BaseModel
 from starlette.requests import Request
+from starlette.middleware.cors import CORSMiddleware
 
 # -----------------------------------------------------------------------------
 
@@ -16,6 +17,22 @@ time.sleep(5)
 # can't address by localhost or IP, need service name
 # https://docs.docker.com/compose/networking/
 client = InfluxDBClient("influx", 8086, "root", "root")
+
+origins = [
+  "http:localhost",
+  "http:localhost:8000",
+  "http://127.0.0.1:5000",
+  "http://localhost:5000",
+  "http://app.inboxed.cc"
+]
+
+app.add_middleware(
+  CORSMiddleware,
+  allow_origins=origins,
+  allow_credentials=True,
+  allow_methods=["*"],
+  allow_headers=["*"],
+)
 
 # -----------------------------------------------------------------------------
 
@@ -62,6 +79,7 @@ async def root(stream_id: str, query: QueryDefinition):
   aggr_dict = {
     "cnt": "COUNT(*)",
     "sum": "SUM(value)",
+    "min": "MIN(value)",
     "avg": "AVG(value)",
     "max": "MAX(value)",
     "p50": "PERCENTILE(value, 50)",
