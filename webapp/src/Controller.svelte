@@ -8,6 +8,24 @@
 
 </script>
 
-<Select items={aggItems} bind:selectedValue={$selectedAgg}></Select>
-<Select items={rangeItems} bind:selectedValue={$selectedRange}></Select>
-<Select items={rollupItems} bind:selectedValue={$selectedRollup}></Select>
+<style>
+  .themed {
+    --border: 2px solid grey;
+    --borderRadius: 0px;
+  }
+  .themed {
+    display: inline;
+  }
+</style>
+
+<div class="themed">
+  <div style="width: 200px; display: inline-block;">
+    <Select isClearable={false} items={aggItems} bind:selectedValue={$selectedAgg}></Select>
+  </div>
+  <div style="width: 200px; display: inline-block;">
+    <Select isClearable={false} items={rangeItems} bind:selectedValue={$selectedRange}></Select>
+  </div>
+  <div style="width: 200px; display: inline-block;">
+    <Select isClearable={false} items={rollupItems} bind:selectedValue={$selectedRollup}></Select>
+  </div>
+</div>
