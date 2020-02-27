@@ -10,7 +10,7 @@
     return [then, now]
   }
 
-  const items = [
+  const timeItems = [
     {value: getTimeRange(3600000),    label: 'Last 1 hour'},
     {value: getTimeRange(21600000),   label: 'Last 6 hours'},
     {value: getTimeRange(86400000),   label: 'Last 24 hours'},
@@ -19,11 +19,26 @@
     {value: getTimeRange(2592000000), label: 'Last 30 days'}
   ];
 
-  let selectedValue = items[2];
+  let selectedValue = timeItems[2];
+
+  const aggItems = [
+    {value: "cnt", label: 'Count'},
+    {value: "max", label: 'Max'},
+    {value: "min", label: 'Min'},
+    {value: "avg", label: 'Average'},
+    {value: "sum", label: 'Sum'},
+    {value: "p50", label: 'P-50'},
+    {value: "p75", label: 'P-75'},
+    {value: "p90", label: 'P-90'},
+    {value: "p95", label: 'P-95'},
+    {value: "p99", label: 'P-99'}
+  ];
+
+  let aggSelectedValue = aggItems[0];
 
   $: body = JSON.stringify({
     'event_name': 'response_time',
-    'aggregation': 'cnt',
+    'aggregation': aggSelectedValue.value,
     'rollup': '1h',
     'start_time': selectedValue.value[0],
     'end_time': selectedValue.value[1]
@@ -41,8 +56,9 @@
     })
     .then(response => response.json())
     .then(json => {
-      times = json['series'][0]['values'].map(point => point[0]);
-      values = json['series'][0]['values'].map(point => point[1]);
+      var series = json.series || [{values: []}]
+      times = series[0]['values'].map(point => point[0]);
+      values = series[0]['values'].map(point => point[1]);
     })
 
 </script>
@@ -70,6 +86,7 @@
 </style>
 
 <main>
-  <Select {items} bind:selectedValue></Select>
+  <Select items={aggItems} bind:selectedValue={aggSelectedValue}></Select>
+  <Select items={timeItems} bind:selectedValue></Select>
   <MyChart times={times} values={values}/>
 </main>

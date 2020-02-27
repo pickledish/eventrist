@@ -9,10 +9,10 @@
 
   afterUpdate(async() => {
     console.log(myChart)
-    console.log(myChart.labels)
-    console.log(myChart.datasets[0].data)
-    myChart.labels = times.map(t => Date.parse(t));
-    myChart.datasets[0].data = values.map(v => v || 0)
+    console.log(myChart.data.labels)
+    console.log(myChart.data.datasets[0].data)
+    myChart.data.labels = times.map(t => Date.parse(t));
+    myChart.data.datasets[0].data = values.map(v => v || 0)
     myChart.update()
   })
 
@@ -60,5 +60,5 @@
 </script>
 
 <main>
-  <canvas id="myChart" width="400px" height="400px"></canvas>
+  <canvas id="myChart" width="200px" height="200px"></canvas>
 </main>
