@@ -1,63 +1,22 @@
 <script>
-  import Chart from 'chart.js';
 
-  import Select from 'svelte-select';
   import MyChart from './MyChart.svelte'
+  import Controller from './Controller.svelte'
 
-  function getTimeRange(offsetMs) {
-    var now = Date.now();
-    var then = now - offsetMs
-    return [then, now]
-  }
-
-  const timeItems = [
-    {value: getTimeRange(3600000),    label: 'Last 1 hour'},
-    {value: getTimeRange(21600000),   label: 'Last 6 hours'},
-    {value: getTimeRange(86400000),   label: 'Last 24 hours'},
-    {value: getTimeRange(172800000),  label: 'Last 48 hours'},
-    {value: getTimeRange(604800000),  label: 'Last 7 days'},
-    {value: getTimeRange(2592000000), label: 'Last 30 days'}
-  ];
-
-  let timeSelectedValue = timeItems[2];
-
-  const aggItems = [
-    {value: "cnt", label: 'Count'},
-    {value: "max", label: 'Max'},
-    {value: "min", label: 'Min'},
-    {value: "avg", label: 'Average'},
-    {value: "sum", label: 'Sum'},
-    {value: "p50", label: 'P-50'},
-    {value: "p75", label: 'P-75'},
-    {value: "p90", label: 'P-90'},
-    {value: "p95", label: 'P-95'},
-    {value: "p99", label: 'P-99'}
-  ];
-
-  let aggSelectedValue = aggItems[0];
-
-  const rollupItems = [
-    {value: "1m", label: '1 Minute'},
-    {value: "1h", label: '1 Hour'},
-    {value: "1d", label: '1 Day'},
-  ];
-
-  let rollupSelectedValue = rollupItems[1];
+  import {selectedAgg, selectedRollup, selectedRange} from './Stores.js';
 
   $: body = JSON.stringify({
     'event_name': 'response_time',
-    'aggregation': aggSelectedValue.value,
-    'rollup': rollupSelectedValue.value,
-    'start_time': timeSelectedValue.value[0],
-    'end_time': timeSelectedValue.value[1]
+    'aggregation': $selectedAgg.value,
+    'rollup': $selectedRollup.value,
+    'start_time': $selectedRange.value[0],
+    'end_time': $selectedRange.value[1]
   })
-
-  let apiURL = "http://127.0.0.1:8000/stream/abcd/query";
 
   let times = []
   let values = []
 
-  $: fetch(apiURL, {
+  $: fetch("http://127.0.0.1:8000/stream/abcd/query", {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: body
@@ -94,8 +53,6 @@
 </style>
 
 <main>
-  <Select items={aggItems} bind:selectedValue={aggSelectedValue}></Select>
-  <Select items={timeItems} bind:selectedValue={timeSelectedValue}></Select>
-  <Select items={rollupItems} bind:selectedValue={rollupSelectedValue}></Select>
+  <Controller/>
   <MyChart times={times} values={values}/>
 </main>
