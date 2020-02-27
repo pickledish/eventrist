@@ -1,72 +1,50 @@
 <script>
   import Chart from 'chart.js';
-  import { onMount } from 'svelte';
 
-  export let name;
+  import Select from 'svelte-select';
+  import MyChart from './MyChart.svelte'
 
-  const apiURL = "http://127.0.0.1:8000/stream/abc/query";
+  function getTimeRange(offsetMs) {
+    var now = Date.now();
+    var then = now - offsetMs
+    return [then, now]
+  }
 
-  onMount(async () => {
+  const items = [
+    {value: getTimeRange(3600000),    label: 'Last 1 hour'},
+    {value: getTimeRange(21600000),   label: 'Last 6 hours'},
+    {value: getTimeRange(86400000),   label: 'Last 24 hours'},
+    {value: getTimeRange(172800000),  label: 'Last 48 hours'},
+    {value: getTimeRange(604800000),  label: 'Last 7 days'},
+    {value: getTimeRange(2592000000), label: 'Last 30 days'}
+  ];
 
-    const response = await fetch(apiURL, {
+  let selectedValue = items[2];
+
+  $: body = JSON.stringify({
+    'event_name': 'response_time',
+    'aggregation': 'cnt',
+    'rollup': '1h',
+    'start_time': selectedValue.value[0],
+    'end_time': selectedValue.value[1]
+  })
+
+  let apiURL = "http://127.0.0.1:8000/stream/abcd/query";
+
+  let times = []
+  let values = []
+
+  $: fetch(apiURL, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        'event_name': 'brandon-test',
-        'aggregation': 'p90',
-        'rollup': '2h',
-        'start_time': 1582581066832,
-        'end_time': 1582621270814
-      }),
+      body: body
     })
-    var data = await response.json();
+    .then(response => response.json())
+    .then(json => {
+      times = json['series'][0]['values'].map(point => point[0]);
+      values = json['series'][0]['values'].map(point => point[1]);
+    })
 
-    var times = data['series'][0]['values'].map(point => point[0])
-    var values = data['series'][0]['values'].map(point => point[1])
-    console.log(times)
-    console.log(values)
-
-    var ctx = document.getElementById('myChart');
-    var myChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: times.map(t => Date.parse(t)),
-        datasets: [
-          {
-            data: values.map(v => v || 0)
-          }
-        ]
-      },
-      options: {
-        fill: false,
-        responsive: true,
-        scales: {
-          xAxes: [{
-            type: 'time',
-            display: true,
-            time: {
-              unit: 'hour',
-              unitStepSize: 1
-            },
-            scaleLabel: {
-              display: true,
-              labelString: "Date",
-            }
-          }],
-          yAxes: [{
-            ticks: {
-              beginAtZero: true,
-            },
-            display: true,
-            scaleLabel: {
-              display: true,
-              labelString: "brandon-test",
-            }
-          }]
-        }
-      }
-    });
-  });
 </script>
 
 <style>
@@ -92,7 +70,6 @@
 </style>
 
 <main>
-  <h1>Hello {name}!</h1>
-  <p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-  <canvas id="myChart" width="400px" height="400px"></canvas>
+  <Select {items} bind:selectedValue></Select>
+  <MyChart times={times} values={values}/>
 </main>
