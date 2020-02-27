@@ -19,7 +19,7 @@
     {value: getTimeRange(2592000000), label: 'Last 30 days'}
   ];
 
-  let selectedValue = timeItems[2];
+  let timeSelectedValue = timeItems[2];
 
   const aggItems = [
     {value: "cnt", label: 'Count'},
@@ -36,12 +36,20 @@
 
   let aggSelectedValue = aggItems[0];
 
+  const rollupItems = [
+    {value: "1m", label: '1 Minute'},
+    {value: "1h", label: '1 Hour'},
+    {value: "1d", label: '1 Day'},
+  ];
+
+  let rollupSelectedValue = rollupItems[1];
+
   $: body = JSON.stringify({
     'event_name': 'response_time',
     'aggregation': aggSelectedValue.value,
-    'rollup': '1h',
-    'start_time': selectedValue.value[0],
-    'end_time': selectedValue.value[1]
+    'rollup': rollupSelectedValue.value,
+    'start_time': timeSelectedValue.value[0],
+    'end_time': timeSelectedValue.value[1]
   })
 
   let apiURL = "http://127.0.0.1:8000/stream/abcd/query";
@@ -87,6 +95,7 @@
 
 <main>
   <Select items={aggItems} bind:selectedValue={aggSelectedValue}></Select>
-  <Select items={timeItems} bind:selectedValue></Select>
+  <Select items={timeItems} bind:selectedValue={timeSelectedValue}></Select>
+  <Select items={rollupItems} bind:selectedValue={rollupSelectedValue}></Select>
   <MyChart times={times} values={values}/>
 </main>

@@ -30,8 +30,8 @@
         xAxes: [{
         type: 'time',
         display: true,
-        time: {
-          unit: 'hour',
+        time: { // TODO! This section must be dependent on rollup and time view
+          unit: 'day',
           unitStepSize: 1
         },
         scaleLabel: {
