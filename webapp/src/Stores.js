@@ -36,6 +36,7 @@ export const selectedAgg = writable(aggItems[0]);
 export const rollupItems = [
   {value: "1m", label: '1 Minute'},
   {value: "1h", label: '1 Hour'},
+  {value: "6h", label: '6 Hours'},
   {value: "1d", label: '1 Day'},
 ];
 
@@ -49,6 +50,8 @@ export const chartTickWidth = derived(
       return {unit: "minute", unitStepSize: 1}
     } else if ($selectedRollup.value === "1h") {
       return {unit: "hour", unitStepSize: 1}
+    } else if ($selectedRollup.value === "6h") {
+      return {unit: "hour", unitStepSize: 6}
     } else {
       return {unit: "day", unitStepSize: 1}
     }
