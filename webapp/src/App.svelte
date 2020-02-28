@@ -11,7 +11,7 @@
     'rollup': $selectedRollup.value,
     'start_time': $selectedRange.value[0],
     'end_time': $selectedRange.value[1],
-    'group_by': [$selectedGroupBy.value],
+    'group_by': $selectedGroupBy.value,
   })
 
   let times = [[],[]]

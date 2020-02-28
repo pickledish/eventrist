@@ -8,7 +8,7 @@ def create_event():
   """
   return {
     "name": "response_time",
-    "time": int(random.uniform(1582811415270, 1582856359000)),
+    "time": int(random.uniform(1582856359000, 1582933439000)),
     "value": float(random.gauss(mu=0, sigma=1)),
     "family": random.choice(["count", "export", "widget", "materialize"]),
     "app_name": random.choice(["query", "query", "query", "pipeline", "luigi"]),
