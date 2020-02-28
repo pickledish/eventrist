@@ -31,7 +31,7 @@
       datasets: [{data: []}]},
       options: {
         fill: false,
-        responsive: true,
+        responsive: false,
         scales: {
           xAxes: [{
             type: 'time',
@@ -63,5 +63,5 @@
 </script>
 
 <main>
-  <canvas id="myChart" width="200px" height="200px"></canvas>
+  <canvas id="myChart" width="1200px" height="400px"></canvas>
 </main>
