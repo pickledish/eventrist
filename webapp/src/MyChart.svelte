@@ -11,14 +11,26 @@
 
   var myChart;
 
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  function makeJson(valueList) {
+    return {'data': valueList.map(v => v || 0), 'backgroundColor': getRandomColor()}
+  }
+
   afterUpdate(async() => {
-    myChart.data.labels = times.map(t => Date.parse(t));
-    myChart.data.datasets[0].label = "foo"
-    myChart.data.datasets[0].backgroundColor = 'rgba(255, 99, 132, 0.2)'
-    myChart.data.datasets[0].hoberBackgroundColor = 'rgba(1, 99, 132, 0.9)'
-    myChart.data.datasets[0].data = values.map(v => v || 0)
+    myChart.data.labels = times[0].map(t => Date.parse(t));
+    // myChart.data.datasets[0].label = "foo"
+    // myChart.data.datasets[0].backgroundColor = 'rgba(255, 99, 132, 0.2)'
+    // myChart.data.datasets[0].hoberBackgroundColor = 'rgba(1, 99, 132, 0.9)'
+    myChart.data.datasets = values.map(valueList => makeJson(valueList))
     myChart.options.scales.xAxes[0].time = $chartTickWidth
-    console.log($chartTickWidth)
     myChart.update()
   })
 
@@ -34,6 +46,7 @@
         responsive: false,
         scales: {
           xAxes: [{
+            stacked: true,
             type: 'time',
             display: true,
             time: $chartTickWidth,
@@ -46,6 +59,7 @@
             },
           }],
           yAxes: [{
+            stacked: true,
             ticks: {
               beginAtZero: true,
             },

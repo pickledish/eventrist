@@ -44,6 +44,7 @@ class QueryDefinition(BaseModel):
   end_time: int
   filters: typing.Dict[str, str] = {}
   group_by: typing.List[str] = []
+  timezone: str = "America/New_York"
 
 # -----------------------------------------------------------------------------
 
@@ -74,7 +75,7 @@ async def root(stream_id: str, request: Request):
 async def root(stream_id: str, query: QueryDefinition):
   """
   """
-  template = "SELECT {} FROM {} WHERE {} GROUP BY {} TZ('America/New_York')"
+  template = "SELECT {} FROM {} WHERE {} GROUP BY {} TZ('{}')"
 
   aggr_dict = {
     "cnt": "COUNT(*)",
@@ -109,6 +110,8 @@ async def root(stream_id: str, query: QueryDefinition):
     *query.group_by
   ])
 
-  query_string = template.format(s_part, f_part, w_part, g_part)
+  t_part = query.timezone
+
+  query_string = template.format(s_part, f_part, w_part, g_part, t_part)
 
   return client.query(query_string, database=stream_id).raw

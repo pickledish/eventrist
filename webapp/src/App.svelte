@@ -3,18 +3,19 @@
   import MyChart from './MyChart.svelte'
   import Controller from './Controller.svelte'
 
-  import {selectedAgg, selectedRollup, selectedRange} from './Stores.js';
+  import {selectedAgg, selectedRollup, selectedRange, selectedGroupBy} from './Stores.js';
 
   $: body = JSON.stringify({
     'event_name': 'response_time',
     'aggregation': $selectedAgg.value,
     'rollup': $selectedRollup.value,
     'start_time': $selectedRange.value[0],
-    'end_time': $selectedRange.value[1]
+    'end_time': $selectedRange.value[1],
+    'group_by': [$selectedGroupBy.value],
   })
 
-  let times = []
-  let values = []
+  let times = [[],[]]
+  let values = [[],[]]
 
   $: fetch("http://127.0.0.1:8000/stream/abcd/query", {
       method: 'POST',
@@ -23,9 +24,9 @@
     })
     .then(response => response.json())
     .then(json => {
-      var series = json.series || [{values: []}]
-      times = series[0]['values'].map(point => point[0]);
-      values = series[0]['values'].map(point => point[1]);
+      var serieses = json.series || [{values: []}]
+      times = serieses.map(s => s.values.map(point => point[0]));
+      values = serieses.map(s => s.values.map(point => point[1]));
     })
 
 </script>

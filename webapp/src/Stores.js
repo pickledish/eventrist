@@ -44,6 +44,15 @@ export const selectedRollup = writable(rollupItems[1]);
 
 // ----------------------------------------------------------------------------
 
+export const groupByItems = [
+  {value: "family", label: 'family'},
+  {value: "app_name", label: 'app_name'},
+];
+
+export const selectedGroupBy = writable(groupByItems[0]);
+
+// ----------------------------------------------------------------------------
+
 export const chartTickWidth = derived(
   selectedRollup, $selectedRollup => {
     if ($selectedRollup.value === "1m") {

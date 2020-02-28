@@ -8,7 +8,7 @@ def create_event():
   """
   return {
     "name": "response_time",
-    "time": int(random.uniform(1582738382000, 1582811415270)),
+    "time": int(random.uniform(1582811415270, 1582856359000)),
     "value": float(random.gauss(mu=0, sigma=1)),
     "family": random.choice(["count", "export", "widget", "materialize"]),
     "app_name": random.choice(["query", "query", "query", "pipeline", "luigi"]),
@@ -16,5 +16,5 @@ def create_event():
   }
 
 if __name__ == "__main__":
-	for i in range(1000):
+	for i in range(700):
 		requests.post("http://127.0.0.1:8000/stream/abcd/write", json=create_event())
