@@ -3,7 +3,7 @@
   import MyChart from './MyChart.svelte'
   import Controller from './Controller.svelte'
 
-  import {selectedName, selectedAgg, selectedRollup, selectedRange, selectedGroupBy} from './Stores.js';
+  import {selectedName, selectedWhere, selectedAgg, selectedRollup, selectedRange, selectedGroupBy} from './Stores.js';
   import {getOrElse} from './util.js'
 
   $: body = JSON.stringify({
@@ -12,6 +12,7 @@
     'rollup': $selectedRollup.value,
     'start_time': $selectedRange.value[0],
     'end_time': $selectedRange.value[1],
+    'filters': $selectedWhere.value,
     'group_by': $selectedGroupBy.value,
   })
 

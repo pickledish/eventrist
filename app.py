@@ -42,7 +42,8 @@ class QueryDefinition(BaseModel):
   rollup: str # must be one of 1h, 4h, 24h, etc
   start_time: int
   end_time: int
-  filters: typing.Dict[str, str] = {}
+  # filters: typing.Dict[str, str] = {}
+  filters: str = ""
   group_by: typing.List[str] = []
   timezone: str = "America/New_York"
 
@@ -97,7 +98,8 @@ async def root(stream_id: str, query: QueryDefinition):
 
   f_part = "\"{}\"".format(query.event_name)
 
-  filters = ["\"{}\" = '{}'".format(k, v) for k, v in query.filters.items()]
+  # filters = ["\"{}\" = '{}'".format(k, v) for k, v in query.filters.items()]
+  filters = [query.filters] if query.filters else []
 
   w_part = " AND ".join([
     '"time" >= {}'.format(query.start_time * 1000000), # stored influx as ns

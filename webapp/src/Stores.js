@@ -12,6 +12,14 @@ export const selectedName = writable(nameItems[0]);
 
 // ----------------------------------------------------------------------------
 
+export const whereItems = [
+  {value: "", label: '(everything)'},
+  ];
+
+export const selectedWhere = writable(whereItems[0]);
+
+// ----------------------------------------------------------------------------
+
 export const rangeItems = [
   {value: getTimeRange(3600000),     label: 'Last 1 hour'},
   {value: getTimeRange(21600000),    label: 'Last 6 hours'},
