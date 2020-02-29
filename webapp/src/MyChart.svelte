@@ -20,10 +20,15 @@
   }
 
   function makeJson(tuple) {
+    let color = getRandomColor()
     return {
       'label': tuple.label,
       'data': tuple.values.map(v => v || 0),
-      'backgroundColor': getRandomColor()
+      'borderColor': color,
+      'backgroundColor': color,
+      'lineTension': 0,
+      'pointRadius': 2,
+      'fill': false,
     }
   }
 
@@ -37,7 +42,7 @@
   onMount(async () => {
     var ctx = document.getElementById('myChart');
     myChart = new Chart(ctx, {
-      type: 'bar',
+      type: 'line',
       data: {
       labels: [],
       datasets: [{data: []}]},
@@ -46,7 +51,7 @@
         responsive: false,
         scales: {
           xAxes: [{
-            stacked: true,
+            //stacked: true,
             type: 'time',
             display: true,
             time: $chartTickWidth,
@@ -59,7 +64,7 @@
             },
           }],
           yAxes: [{
-            stacked: true,
+            //stacked: true,
             ticks: {
               beginAtZero: true,
             },
