@@ -3,13 +3,24 @@ import { getTimeRange } from './util.js';
 
 // ----------------------------------------------------------------------------
 
+export const nameItems = [
+  {value: "response_time", label: 'response_time'},
+  {value: "transaction_amount", label: 'transaction_amount'},
+];
+
+export const selectedName = writable(nameItems[0]);
+
+// ----------------------------------------------------------------------------
+
 export const rangeItems = [
-  {value: getTimeRange(3600000),    label: 'Last 1 hour'},
-  {value: getTimeRange(21600000),   label: 'Last 6 hours'},
-  {value: getTimeRange(86400000),   label: 'Last 24 hours'},
-  {value: getTimeRange(172800000),  label: 'Last 48 hours'},
-  {value: getTimeRange(604800000),  label: 'Last 7 days'},
-  {value: getTimeRange(2592000000), label: 'Last 30 days'},
+  {value: getTimeRange(3600000),     label: 'Last 1 hour'},
+  {value: getTimeRange(21600000),    label: 'Last 6 hours'},
+  {value: getTimeRange(86400000),    label: 'Last 24 hours'},
+  {value: getTimeRange(172800000),   label: 'Last 48 hours'},
+  {value: getTimeRange(604800000),   label: 'Last 7 days'},
+  {value: getTimeRange(2592000000),  label: 'Last 30 days'},
+  {value: getTimeRange(7776000000),  label: 'Last 3 months'},
+  {value: getTimeRange(15552000000), label: 'Last 6 months'},
 ];
 
 export const selectedRange = writable(rangeItems[2]);
@@ -38,6 +49,8 @@ export const rollupItems = [
   {value: "1h", label: '1 Hour'},
   {value: "6h", label: '6 Hours'},
   {value: "1d", label: '1 Day'},
+  {value: "1w", label: '1 Week'},
+  {value: "30d", label: '1 Month'},
 ];
 
 export const selectedRollup = writable(rollupItems[1]);
@@ -49,7 +62,7 @@ export const groupByItems = [
   {value: ["family"], label: 'family'},
   {value: ["app_name"], label: 'app_name'},
   {value: ["trace_id"], label: 'trace_id'},
-
+  {value: ["Category"], label: 'Category'},
 ];
 
 export const selectedGroupBy = writable(groupByItems[0]);
@@ -64,6 +77,10 @@ export const chartTickWidth = derived(
       return {unit: "hour", unitStepSize: 1}
     } else if ($selectedRollup.value === "6h") {
       return {unit: "hour", unitStepSize: 6}
+    } else if ($selectedRollup.value === "1w") {
+      return {unit: "week", unitStepSize: 1}
+    } else if ($selectedRollup.value === "30d") {
+      return {unit: "month", unitStepSize: 1}
     } else {
       return {unit: "day", unitStepSize: 1}
     }

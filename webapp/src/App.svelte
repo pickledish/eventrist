@@ -3,11 +3,11 @@
   import MyChart from './MyChart.svelte'
   import Controller from './Controller.svelte'
 
-  import {selectedAgg, selectedRollup, selectedRange, selectedGroupBy} from './Stores.js';
+  import {selectedName, selectedAgg, selectedRollup, selectedRange, selectedGroupBy} from './Stores.js';
   import {getOrElse} from './util.js'
 
   $: body = JSON.stringify({
-    'event_name': 'response_time',
+    'event_name': $selectedName.value,
     'aggregation': $selectedAgg.value,
     'rollup': $selectedRollup.value,
     'start_time': $selectedRange.value[0],

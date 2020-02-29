@@ -2,6 +2,7 @@
 
   import Select from 'svelte-select';
 
+  import {nameItems, selectedName} from './Stores.js';
   import {rangeItems, selectedRange} from './Stores.js';
   import {aggItems, selectedAgg} from './Stores.js';
   import {rollupItems, selectedRollup} from './Stores.js';
@@ -52,7 +53,7 @@
     <span>Query</span>
   </div>
   <div style="width: 180px; display: inline-block;">
-    <Select isClearable={false} items={["response_time"]}></Select>
+    <Select isClearable={false} items={nameItems} bind:selectedValue={$selectedName}></Select>
   </div>
   <div class="nonselect">
     <span>where</span>
