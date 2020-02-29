@@ -6,7 +6,7 @@ Uses influxDB as an event store (not _totally_ scalable but will work great for 
 
 Stack is currently Docker, InfluxDB, Starlette, Svelte, and Chart.JS.
 
-Not deployed to the intertubes yet but will be soon.
+Not deployed to the [interblag](https://xkcd.com/181/) yet but will be soon.
 
 A lot more features to come (none are that hard), including but not limited to:
   - zooming and custom ranges
@@ -16,7 +16,7 @@ A lot more features to come (none are that hard), including but not limited to:
 
 ## Samples
 
-Here's what it looks like so far (dummy data):
+Here's what it looks like so far (dummy data), please don't judge it's very early stages:
 
 ![a line chart](line.png)
 
