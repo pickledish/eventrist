@@ -48,6 +48,8 @@ export const groupByItems = [
   {value: [], label: '(everything)'},
   {value: ["family"], label: 'family'},
   {value: ["app_name"], label: 'app_name'},
+  {value: ["trace_id"], label: 'trace_id'},
+
 ];
 
 export const selectedGroupBy = writable(groupByItems[0]);

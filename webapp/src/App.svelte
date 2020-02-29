@@ -4,6 +4,7 @@
   import Controller from './Controller.svelte'
 
   import {selectedAgg, selectedRollup, selectedRange, selectedGroupBy} from './Stores.js';
+  import {getOrElse} from './util.js'
 
   $: body = JSON.stringify({
     'event_name': 'response_time',
@@ -14,8 +15,22 @@
     'group_by': $selectedGroupBy.value,
   })
 
-  let times = [[],[]]
-  let values = [[],[]]
+  function Series(label, times, values) {
+    this.label = label;
+    this.times = times;
+    this.values = values;
+  }
+
+  var serieses = [new Series("No Identifier", [], [])]
+
+  function influxToSeries(series) {
+    console.log(series.tags)
+    return new Series(
+      JSON.stringify(getOrElse(series.tags, {"tags": "None"})),
+      series.values.map(point => point[0]),
+      series.values.map(point => point[1])
+    )
+  }
 
   $: fetch("http://127.0.0.1:8000/stream/abcd/query", {
       method: 'POST',
@@ -23,11 +38,7 @@
       body: body
     })
     .then(response => response.json())
-    .then(json => {
-      var serieses = json.series || [{values: []}]
-      times = serieses.map(s => s.values.map(point => point[0]));
-      values = serieses.map(s => s.values.map(point => point[1]));
-    })
+    .then(json => {serieses = getOrElse(json.series, []).map(s => influxToSeries(s))})
 
 </script>
 
@@ -49,5 +60,5 @@
 
 <main>
   <Controller/>
-  <MyChart times={times} values={values}/>
+  <MyChart serieses={serieses}/>
 </main>
