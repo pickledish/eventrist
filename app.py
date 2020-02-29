@@ -75,7 +75,7 @@ async def root(stream_id: str, request: Request):
 async def root(stream_id: str, query: QueryDefinition):
   """
   """
-  template = "SELECT {} FROM {} WHERE {} GROUP BY {} TZ('{}')"
+  template = "SELECT {} FROM {} WHERE {} GROUP BY {} LIMIT 100 TZ('{}')"
 
   aggr_dict = {
     "cnt": "COUNT(*)",

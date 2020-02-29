@@ -24,9 +24,8 @@
   var serieses = [new Series("No Identifier", [], [])]
 
   function influxToSeries(series) {
-    console.log(series.tags)
     return new Series(
-      JSON.stringify(getOrElse(series.tags, {"tags": "None"})),
+      JSON.stringify(Object.values(getOrElse(series.tags, {"tags": "None"}))),
       series.values.map(point => point[0]),
       series.values.map(point => point[1])
     )
