@@ -76,21 +76,3 @@ export const groupByItems = [
 export const selectedGroupBy = writable(groupByItems[0]);
 
 // ----------------------------------------------------------------------------
-
-export const chartTickWidth = derived(
-  selectedRollup, $selectedRollup => {
-    if ($selectedRollup.value === "1m") {
-      return {unit: "minute", unitStepSize: 1}
-    } else if ($selectedRollup.value === "1h") {
-      return {unit: "hour", unitStepSize: 1}
-    } else if ($selectedRollup.value === "6h") {
-      return {unit: "hour", unitStepSize: 6}
-    } else if ($selectedRollup.value === "1w") {
-      return {unit: "week", unitStepSize: 1}
-    } else if ($selectedRollup.value === "30d") {
-      return {unit: "month", unitStepSize: 1}
-    } else {
-      return {unit: "day", unitStepSize: 1}
-    }
-  }
-);
