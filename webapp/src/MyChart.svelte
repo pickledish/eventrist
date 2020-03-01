@@ -13,22 +13,25 @@
 
 
 
-  function getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
+  function stringToColor(idString) {
+    var hash = 0;
+    for (var i = 0; i < idString.length; i++) {
+      hash = idString.charCodeAt(i) + ((hash << 5) - hash);
     }
-    return color;
+    var colour = '#';
+    for (var i = 0; i < 3; i++) {
+      var value = (hash >> (i * 8)) & 0xFF;
+      colour += ('00' + value.toString(16)).substr(-2);
+    }
+    return colour;
   }
 
   function makeJson(tuple) {
-    let color = getRandomColor()
     return {
       'label': tuple.label,
       'data': tuple.values.map(v => v || 0),
-      'borderColor': color,
-      'backgroundColor': color,
+      'borderColor': stringToColor(tuple.label),
+      'backgroundColor': stringToColor(tuple.label),
       'lineTension': 0,
       'pointRadius': 2,
       'fill': isBarChart,
@@ -85,7 +88,6 @@
 
   $: {
     if (initialized) {
-      console.log(serieses);
       myChart && myChart.destroy();
       let myData = (serieses.length == 0) ? {} : {
         labels: serieses[0].times.map(t => Date.parse(t)),
