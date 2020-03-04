@@ -7,3 +7,7 @@ export function getTimeRange(offsetMs) {
 export function getOrElse(x, els) {
   return (x === undefined || x === null) ? els : x;
 }
+
+export function flatten(arr) {
+	return arr.reduce((acc, val) => acc.concat(val), [])
+}

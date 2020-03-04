@@ -112,7 +112,7 @@ async def root(stream_id: str, query: QueryDefinition):
 
   g_part = ", ".join([
     "time({})".format(query.rollup),
-    *query.group_by
+    *map(lambda s: '"{}"'.format(s), query.group_by)
   ])
 
   t_part = query.timezone
@@ -133,6 +133,8 @@ async def root(stream_id: str):
 async def root(stream_id: str, req: TagKeyRequest):
   """
   """
-  query_string = "SHOW TAG KEYS FROM {}".format(req.event_name)
+  f_part = "FROM {}".format(req.event_name) if req.event_name != "*" else ""
+
+  query_string = "SHOW TAG KEYS {}".format(f_part)
 
   return client.query(query_string, database=stream_id).raw

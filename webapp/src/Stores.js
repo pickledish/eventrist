@@ -1,5 +1,5 @@
 import { writable, derived } from 'svelte/store';
-import { getTimeRange, getOrElse } from './util.js';
+import { getTimeRange, getOrElse, flatten } from './util.js';
 
 // ----------------------------------------------------------------------------
 
@@ -7,7 +7,7 @@ export const nameItems = writable([
   {value: "*", label: '(everything)'},
 ]);
 
-export const selectedName = writable({label: "fuck", value: "none"});
+export const selectedName = writable({value: "*", label: "(everything)"});
 
 // ----------------------------------------------------------------------------
 
@@ -79,14 +79,10 @@ export const groupByItems = derived(
     let json = await response.json()
     console.log(json)
     let series = getOrElse(json.series, [{"values": []}])
-    set(
-      series[0]['values']
-      .reduce((acc, val) => acc.concat(val), [])
-      .map(tagval => makeShit(tagval))
-    )
+    set(flatten(series[0]['values']).map(tagval => makeShit(tagval)))
   }
 );
 
-export const selectedGroupBy = writable({label: "fuck", value: []});
+export const selectedGroupBy = writable({value: [], label: "(everything)"});
 
 // ----------------------------------------------------------------------------

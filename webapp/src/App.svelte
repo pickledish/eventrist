@@ -4,7 +4,7 @@
   import Controller from './Controller.svelte'
 
   import {selectedName, nameItems, selectedWhere, selectedAgg, selectedRollup, selectedRange, selectedGroupBy} from './Stores.js';
-  import {getOrElse} from './util.js'
+  import {getOrElse, flatten} from './util.js'
 
   $: body = JSON.stringify({
     'event_name': $selectedName.value,
@@ -45,7 +45,7 @@
       headers: {'Content-Type': 'application/json'},
   })
   .then(response => response.json())
-  .then(json => $nameItems = json['series'][0]['values'].reduce((acc, val) => acc.concat(val), []))
+  .then(json => $nameItems = flatten(json['series'][0]['values']))
 
 </script>
 
