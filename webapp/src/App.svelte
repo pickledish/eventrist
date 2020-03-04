@@ -3,7 +3,7 @@
   import MyChart from './MyChart.svelte'
   import Controller from './Controller.svelte'
 
-  import {selectedName, selectedWhere, selectedAgg, selectedRollup, selectedRange, selectedGroupBy} from './Stores.js';
+  import {selectedName, nameItems, selectedWhere, selectedAgg, selectedRollup, selectedRange, selectedGroupBy} from './Stores.js';
   import {getOrElse} from './util.js'
 
   $: body = JSON.stringify({
@@ -39,6 +39,13 @@
     })
     .then(response => response.json())
     .then(json => {serieses = getOrElse(json.series, []).map(s => influxToSeries(s))})
+
+  fetch("http://127.0.0.1:8000/stream/abcd/names", {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+  })
+  .then(response => response.json())
+  .then(json => $nameItems = json['series'][0]['values'].reduce((acc, val) => acc.concat(val), []))
 
 </script>
 

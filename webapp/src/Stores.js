@@ -1,14 +1,13 @@
 import { writable, derived } from 'svelte/store';
-import { getTimeRange } from './util.js';
+import { getTimeRange, getOrElse } from './util.js';
 
 // ----------------------------------------------------------------------------
 
-export const nameItems = [
-  {value: "response_time", label: 'response_time'},
-  {value: "transaction_amount", label: 'transaction_amount'},
-];
+export const nameItems = writable([
+  {value: "*", label: '(everything)'},
+]);
 
-export const selectedName = writable(nameItems[0]);
+export const selectedName = writable({label: "fuck", value: "none"});
 
 // ----------------------------------------------------------------------------
 
@@ -65,14 +64,29 @@ export const selectedRollup = writable(rollupItems[1]);
 
 // ----------------------------------------------------------------------------
 
-export const groupByItems = [
-  {value: [], label: '(everything)'},
-  {value: ["family"], label: 'family'},
-  {value: ["app_name"], label: 'app_name'},
-  {value: ["trace_id"], label: 'trace_id'},
-  {value: ["Category"], label: 'Category'},
-];
+function makeShit(tagval) {
+  return {"value": [tagval], "label": tagval}
+}
 
-export const selectedGroupBy = writable(groupByItems[0]);
+export const groupByItems = derived(
+  selectedName,
+  async ($selectedName, set) => {
+    let response = await fetch("http://127.0.0.1:8000/stream/abcd/tagkeys", {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({"event_name": $selectedName.value})
+    })
+    let json = await response.json()
+    console.log(json)
+    let series = getOrElse(json.series, [{"values": []}])
+    set(
+      series[0]['values']
+      .reduce((acc, val) => acc.concat(val), [])
+      .map(tagval => makeShit(tagval))
+    )
+  }
+);
+
+export const selectedGroupBy = writable({label: "fuck", value: []});
 
 // ----------------------------------------------------------------------------

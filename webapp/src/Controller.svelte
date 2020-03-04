@@ -54,7 +54,7 @@
     <span>Query</span>
   </div>
   <div style="width: 180px; display: inline-block;">
-    <Select isClearable={false} items={nameItems} bind:selectedValue={$selectedName}></Select>
+    <Select isClearable={false} bind:items={$nameItems} bind:selectedValue={$selectedName}></Select>
   </div>
   <div class="nonselect">
     <span>where</span>
@@ -78,6 +78,6 @@
     <span>group by</span>
   </div>
   <div style="width: 180px; display: inline-block;">
-    <Select isClearable={false} items={groupByItems} bind:selectedValue={$selectedGroupBy}></Select>
+    <Select isClearable={false} items={$groupByItems} bind:selectedValue={$selectedGroupBy}></Select>
   </div>
 </div>

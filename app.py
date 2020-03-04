@@ -47,6 +47,9 @@ class QueryDefinition(BaseModel):
   group_by: typing.List[str] = []
   timezone: str = "America/New_York"
 
+class TagKeyRequest(BaseModel):
+  event_name: str
+
 # -----------------------------------------------------------------------------
 
 @app.post("/stream/{stream_id}/write")
@@ -115,5 +118,21 @@ async def root(stream_id: str, query: QueryDefinition):
   t_part = query.timezone
 
   query_string = template.format(s_part, f_part, w_part, g_part, t_part)
+
+  return client.query(query_string, database=stream_id).raw
+
+@app.post("/stream/{stream_id}/names")
+async def root(stream_id: str):
+  """
+  """
+  query_string = "SHOW MEASUREMENTS"
+
+  return client.query(query_string, database=stream_id).raw
+
+@app.post("/stream/{stream_id}/tagkeys")
+async def root(stream_id: str, req: TagKeyRequest):
+  """
+  """
+  query_string = "SHOW TAG KEYS FROM {}".format(req.event_name)
 
   return client.query(query_string, database=stream_id).raw
