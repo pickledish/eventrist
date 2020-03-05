@@ -39,7 +39,7 @@ app.add_middleware(
 class QueryDefinition(BaseModel):
   event_name: str
   aggregation: str # must be one of sum, count, etc
-  rollup: str # must be one of 1h, 4h, 24h, etc
+  rollup: str = "" # must be one of 1h, 4h, 24h, etc
   start_time: int
   end_time: int
   # filters: typing.Dict[str, str] = {}
@@ -79,45 +79,48 @@ async def root(stream_id: str, request: Request):
 async def root(stream_id: str, query: QueryDefinition):
   """
   """
-  template = "SELECT {} FROM {} WHERE {} GROUP BY {} TZ('{}')"
-
   aggr_dict = {
-    "cnt": "COUNT(*)",
-    "sum": "SUM(value)",
-    "min": "MIN(value)",
-    "max": "MAX(value)",
-    "avg": "MEAN(value)",
-    "p50": "PERCENTILE(value, 50)",
-    "p75": "PERCENTILE(value, 75)",
-    "p90": "PERCENTILE(value, 90)",
-    "p95": "PERCENTILE(value, 95)",
-    "p99": "PERCENTILE(value, 99)"
+    "raw": "SELECT *",
+    "cnt": "SELECT COUNT(*)",
+    "sum": "SELECT SUM(value)",
+    "min": "SELECT MIN(value)",
+    "max": "SELECT MAX(value)",
+    "avg": "SELECT MEAN(value)",
+    "p50": "SELECT PERCENTILE(value, 50)",
+    "p75": "SELECT PERCENTILE(value, 75)",
+    "p90": "SELECT PERCENTILE(value, 90)",
+    "p95": "SELECT PERCENTILE(value, 95)",
+    "p99": "SELECT PERCENTILE(value, 99)"
   }
 
-  s_part = aggr_dict.get(query.aggregation, None)
+  q_select = aggr_dict.get(query.aggregation, None)
 
-  if s_part is None:
-    raise Exception("Invalid aggregation {}".format(query.aggregation))
+  if q_select is None:
+    raise Exception(f"Invalid aggregation {query.aggregation}")
 
-  f_part = "\"{}\"".format(query.event_name)
+  q_from = f"FROM \"{query.event_name}\""
 
   # filters = ["\"{}\" = '{}'".format(k, v) for k, v in query.filters.items()]
-  filters = [query.filters] if query.filters else []
+  q_filters = [query.filters] if query.filters else []
 
-  w_part = " AND ".join([
-    '"time" >= {}'.format(query.start_time * 1000000), # stored influx as ns
-    '"time" <= {}'.format(query.end_time * 1000000), # stored influx as ns
-    *filters
-  ])
+  q_times = [
+    f"\"time\" >= {query.start_time * 1000000}",
+    f"\"time\" <= {query.end_time * 1000000}"
+  ]
 
-  g_part = ", ".join([
-    "time({})".format(query.rollup),
-    *map(lambda s: '"{}"'.format(s), query.group_by)
-  ])
+  q_where = f"WHERE {' AND '.join(q_times + q_filters)}"
 
-  t_part = query.timezone
+  q_rollup = [f"time({query.rollup})"] if query.rollup else []
 
-  query_string = template.format(s_part, f_part, w_part, g_part, t_part)
+  q_groupings = q_rollup + [f"\"{s}\"" for s in query.group_by]
+
+  q_group_by = f"GROUP BY {', '.join(q_groupings)}" if q_groupings else ""
+
+  q_timezone = f"TZ('{query.timezone}')"
+
+  query_string = f"{q_select} {q_from} {q_where} {q_group_by} {q_timezone}"
+
+  print(query_string)
 
   return client.query(query_string, database=stream_id).raw
 
