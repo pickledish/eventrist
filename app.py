@@ -136,8 +136,8 @@ async def root(stream_id: str):
 async def root(stream_id: str, req: TagKeyRequest):
   """
   """
-  f_part = "FROM {}".format(req.event_name) if req.event_name != "*" else ""
+  q_from = "FROM {}".format(req.event_name) if req.event_name != "*" else ""
 
-  query_string = "SHOW TAG KEYS {}".format(f_part)
+  query_string = f"SHOW TAG KEYS {q_from}"
 
   return client.query(query_string, database=stream_id).raw

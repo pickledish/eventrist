@@ -3,6 +3,11 @@ import { getTimeRange, getOrElse, flatten } from './util.js';
 
 // ----------------------------------------------------------------------------
 
+// Can be one of BAR, LINE, RAW
+export const currentView = writable("BAR")
+
+// ----------------------------------------------------------------------------
+
 export const nameItems = writable([
   {value: "*", label: '(everything)'},
 ]);

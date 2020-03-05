@@ -4,7 +4,7 @@
 
   import { onMount, afterUpdate } from 'svelte';
 
-  import { selectedRollup } from './Stores.js';
+  import { selectedRollup, currentView } from './Stores.js';
 
   export let serieses;
 
@@ -34,13 +34,12 @@
       'backgroundColor': stringToColor(tuple.label),
       'lineTension': 0,
       'pointRadius': 2,
-      'fill': isBarChart,
+      'fill': ($currentView === "BAR"),
     }
   }
 
   var myChart;
   var initialized = false;
-  var isBarChart = true;
 
 
 
@@ -60,7 +59,7 @@
     responsive: false,
     scales: {
       xAxes: [{
-        stacked: isBarChart,
+        stacked: ($currentView === "BAR"),
         type: 'time',
         display: true,
         time: chartTickWidth,
@@ -73,7 +72,7 @@
         },
       }],
       yAxes: [{
-        stacked: isBarChart,
+        stacked: ($currentView === "BAR"),
         ticks: {
           beginAtZero: true,
         },
@@ -87,17 +86,20 @@
   };
 
   $: {
-    if (initialized) {
+    if (initialized && $currentView !== "RAW") {
       myChart && myChart.destroy();
       let myData = (serieses.length == 0) ? {} : {
         labels: serieses[0].times.map(t => Date.parse(t)),
         datasets: serieses.map(tuple => makeJson(tuple)),
       };
       myChart = new Chart(document.getElementById('myChart'), {
-        type: isBarChart ? 'bar' : 'line',
+        type: $currentView.toLowerCase(),
         data: myData,
         options: chartOptions,
       });
+    } else if ($currentView === "RAW") {
+      myChart && myChart.destroy();
+      console.log("Would have shown you the raw events now!")
     } else {
       console.log("Wanted to update the chart but it wasn't ready")
     }
@@ -110,6 +112,8 @@
 </script>
 
 <main>
-  View as Bar Chart: <input type=checkbox bind:checked={isBarChart}>
+  <button on:click={() => $currentView = "BAR"}>See Bar Chart</button>
+  <button on:click={() => $currentView = "LINE"}>See Line Chart</button>
+  <button on:click={() => $currentView = "RAW"}>See Raw Events</button>
   <canvas id="myChart" width="1200px" height="400px"></canvas>
 </main>
