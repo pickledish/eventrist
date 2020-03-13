@@ -18,7 +18,7 @@ export const selectedName = writable({value: "*", label: "(everything)"});
 
 export const whereItems = [
   {value: "", label: '(everything)'},
-  ];
+];
 
 export const selectedWhere = writable(whereItems[0]);
 

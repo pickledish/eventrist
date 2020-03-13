@@ -15,7 +15,7 @@
   .themed {
     --borderRadius: 0px;
     --itemPadding: 0px;
-    --height: 40px;
+    --height: 36px;
     --listMaxHeight: 300px;
     --inputFontSize: 10pt;
     font-size: 10pt;
@@ -27,7 +27,7 @@
     background-color: #f2f2f2;
     border-top: 1px solid #d0d0d0;
     border-bottom: 1px solid #d0d0d0;
-    height: 40px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: left;

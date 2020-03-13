@@ -99,6 +99,7 @@
       });
     } else if ($currentView === "RAW") {
       myChart && myChart.destroy();
+      document.getElementById('rawEvents').innerHTML = "<div> HELLO </div>"
       console.log("Would have shown you the raw events now!")
     } else {
       console.log("Wanted to update the chart but it wasn't ready")
@@ -112,8 +113,9 @@
 </script>
 
 <main>
+  <canvas id="myChart" width="1200px" height="400px"></canvas>
   <button on:click={() => $currentView = "BAR"}>See Bar Chart</button>
   <button on:click={() => $currentView = "LINE"}>See Line Chart</button>
   <button on:click={() => $currentView = "RAW"}>See Raw Events</button>
-  <canvas id="myChart" width="1200px" height="400px"></canvas>
+  <div id="rawEvents" width="1200px" height="400px"></div>
 </main>
