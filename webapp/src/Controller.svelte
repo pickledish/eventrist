@@ -28,6 +28,14 @@
     --height: 36px;
     --listMaxHeight: 300px;
     --inputFontSize: 10pt;
+    --multiItemBorderRadius: 2px;
+    --multiItemHeight: 28px;
+    --multiClearTop: 6px;
+    --multiClearBG: rgba(0,0,0,0);
+    --multiClearFill: rgba(64,64,64,255);
+    --multiClearHoverBG: rgba(0,0,0,0);
+    --multiClearHoverFill: rgba(0,0,0,255);
+    --multiItemPadding: 0px 8px;
     font-size: 10pt;
     width: 100%;
     display: flex;
