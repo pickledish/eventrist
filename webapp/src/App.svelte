@@ -13,7 +13,7 @@
     'start_time': $selectedRange.value[0],
     'end_time': $selectedRange.value[1],
     'filters': $selectedWhere.value,
-    'group_by': $selectedGroupBy.value,
+    'group_by': $selectedGroupBy,
   })
 
   function Series(label, times, values) {
@@ -55,6 +55,7 @@
     padding: 1em;
     max-width: 100%;
     margin: 0 auto;
+    font-family: "Roboto Mono";
   }
 
   h1 {

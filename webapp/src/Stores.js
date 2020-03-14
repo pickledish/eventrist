@@ -82,12 +82,11 @@ export const groupByItems = derived(
       body: JSON.stringify({"event_name": $selectedName.value})
     })
     let json = await response.json()
-    console.log(json)
     let series = getOrElse(json.series, [{"values": []}])
     set(flatten(series[0]['values']).map(tagval => makeShit(tagval)))
   }
 );
 
-export const selectedGroupBy = writable({value: [], label: "(everything)"});
+export const selectedGroupBy = writable([]);
 
 // ----------------------------------------------------------------------------

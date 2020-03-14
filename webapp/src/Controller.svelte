@@ -9,12 +9,22 @@
   import {rollupItems, selectedRollup} from './Stores.js';
   import {groupByItems, selectedGroupBy} from './Stores.js';
 
+  import { getOrElse, flatten } from './util.js';
+
+  function handleMulti(newVal, storeToUpdate) {
+    let detail = getOrElse(newVal.detail, [])
+    let flat = flatten(detail.map(elem => elem.value))
+    console.log(flat)
+    $selectedGroupBy = flat
+    console.log($selectedGroupBy)
+  }
+
 </script>
 
 <style>
   .themed {
     --borderRadius: 0px;
-    --itemPadding: 0px;
+    --itemPadding: 0px 0px 0px 16px;
     --height: 36px;
     --listMaxHeight: 300px;
     --inputFontSize: 10pt;
@@ -22,6 +32,7 @@
     width: 100%;
     display: flex;
     padding-bottom: 12px;
+    text-align: left;
   }
   .nonselect {
     background-color: #f2f2f2;
@@ -79,7 +90,13 @@
       <span>Graph by</span>
     </div>
     <div style="min-width: 150px;">
-      <Select isClearable={false} items={$groupByItems} bind:selectedValue={$selectedGroupBy}></Select>
+      <Select
+        isClearable={false}
+        items={$groupByItems}
+        isMulti={true}
+        placeholder={"(everything)"}
+        on:select={(selectedVal) => handleMulti(selectedVal, $selectedGroupBy)}
+      ></Select>
     </div>
   </div>
 </div>
