@@ -8,11 +8,12 @@ Stack is currently Docker, InfluxDB, Starlette, Svelte, and Chart.JS.
 
 Not deployed to the [interblag](https://xkcd.com/181/) yet but will be soon.
 
-A lot more features to come (none are that hard), including but not limited to:
-  - zooming and custom ranges
-  - ability to group by multiple tags
-  - more/nicer autocomplete
+A lot more features to come (none are too hard), including but not limited to:
+  - ~ability to group by multiple tags~
+  - ~more/nicer autocomplete~
+  - zooming and custom ranges (ok this might be hard)
   - easy view of raw events when needed
+  - ability to define CSV and webhook sources
 
 ## Samples
 

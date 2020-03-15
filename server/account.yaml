@@ -1,0 +1,12 @@
+sources:
+  lunch_money_csv:
+    source_type: "csv"
+    stream_id: "abcd"
+    event_name: "lm_transaction"
+    event_date_field: "date"
+    event_value_field: "amount"
+  square_api:
+    source_type: "webhook"
+    stream_id: "abcd"
+    event_name: "payment"
+    event_value_field: "money"
