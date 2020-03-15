@@ -94,7 +94,7 @@ export const selectedGroupBy = writable([]);
 /*
  * Custom state store which is backed by a normal Svelte `writable` store.
  * Ensures that all updates are persisted to query param with name `paramName`
- * so that when you refresh the page, this store is intact.
+ * so that when you refresh the page, the value is intact.
  *
  * Makes sharing of dashboards via URL possible, wahoo
  */

@@ -12,8 +12,7 @@ export function flatten(arr) {
 	return arr.reduce((acc, val) => acc.concat(val), [])
 }
 
-export function getQueryParam(paramName, defualt) {
+export function getQueryParam(paramName, els) {
 	let paramDict = new URL(document.location).searchParams;
-	console.log(paramDict.get(paramName))
-	return getOrElse(paramDict.get(paramName), defualt);
+	return getOrElse(paramDict.get(paramName), els);
 }

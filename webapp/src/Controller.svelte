@@ -14,18 +14,13 @@
   function handleMulti(newVal, storeToUpdate) {
     let detail = getOrElse(newVal.detail, [])
     let flat = flatten(detail.map(elem => elem.value))
-    console.log(flat)
     // TODO: Why do I have to hardcode this instead of using storeToUpdate?
     $selectedGroupBy = flat
-    console.log($selectedGroupBy)
   }
 
   function handleSingle(newVal, storeToUpdate) {
-    let detail = getOrElse(newVal.detail, [])
-    console.log(detail)
     // TODO: Why do I have to hardcode this instead of using storeToUpdate?
-    $selectedRollup = detail.value
-    console.log($selectedRollup)
+    $selectedRollup = newVal.detail.value
   }
 
 </script>

@@ -47,12 +47,12 @@
 
 
   $: chartTickWidth =
-    ($selectedRollup === "1m") ? {unit: "minute", unitStepSize: 1} :
-    ($selectedRollup === "1h") ? {unit: "hour", unitStepSize: 1} :
-    ($selectedRollup === "6h") ? {unit: "hour", unitStepSize: 6} :
-    ($selectedRollup === "1w") ? {unit: "week", unitStepSize: 1} :
-    ($selectedRollup === "30d") ? {unit: "month", unitStepSize: 1} :
-    {unit: "day", unitStepSize: 1};
+    ($selectedRollup === "1m")  ? {unit: "minute", unitStepSize: 1} :
+    ($selectedRollup === "1h")  ? {unit: "hour",   unitStepSize: 1} :
+    ($selectedRollup === "6h")  ? {unit: "hour",   unitStepSize: 6} :
+    ($selectedRollup === "1w")  ? {unit: "week",   unitStepSize: 1} :
+    ($selectedRollup === "30d") ? {unit: "month",  unitStepSize: 1} :
+                                  {unit: "day",    unitStepSize: 1};
 
   $: chartOptions = {
     fill: false,
