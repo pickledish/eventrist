@@ -1,5 +1,5 @@
 import { writable, derived } from 'svelte/store';
-import { getTimeRange, getOrElse, flatten, getQueryParam } from './util.js';
+import { getTimeRange, getOrElse, flatten, getQueryParam, setQueryParam } from './util.js';
 
 // ----------------------------------------------------------------------------
 
@@ -79,7 +79,7 @@ export const groupByItems = derived(
     let response = await fetch("http://127.0.0.1:8000/stream/abcd/tagkeys", {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({"event_name": $selectedName.value})
+      body: JSON.stringify({"event_name": $selectedName})
     })
     let json = await response.json()
     let series = getOrElse(json.series, [{"values": []}])
@@ -100,19 +100,17 @@ export const selectedGroupBy = writable([]);
  */
 function queryParamStore(paramName, defaultValue) {
 
-  let state = getQueryParam(paramName, defaultValue)
+  let currentValue = getQueryParam(paramName, defaultValue)
 
-  let innerStore = writable(state);
+  let innerStore = writable(currentValue);
 
   return {
     subscribe(newSubscriber) {
       return innerStore.subscribe(newSubscriber)
     },
-    set(paramValue) {
-      let params = new URL(document.location).searchParams;
-      params.set(paramName, paramValue);
-      window.history.pushState({page: 1}, "", "?" + params.toString())
-      return innerStore.set(paramValue)
+    set(newValue) {
+      setQueryParam(paramName, newValue)
+      return innerStore.set(newValue)
     }
   }
 }

@@ -16,3 +16,9 @@ export function getQueryParam(paramName, els) {
 	let paramDict = new URL(document.location).searchParams;
 	return getOrElse(paramDict.get(paramName), els);
 }
+
+export function setQueryParam(paramName, newValue) {
+	let params = new URL(document.location).searchParams;
+    params.set(paramName, newValue);
+    window.history.pushState({}, "", "?" + params.toString())
+}
