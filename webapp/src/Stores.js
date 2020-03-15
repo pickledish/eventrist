@@ -12,7 +12,7 @@ export const nameItems = writable([
   {value: "*", label: '(everything)'},
 ]);
 
-export const selectedName = writable({value: "*", label: "(everything)"});
+export const selectedName = queryParamStore("event", "*")
 
 // ----------------------------------------------------------------------------
 

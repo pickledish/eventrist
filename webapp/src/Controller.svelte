@@ -18,11 +18,6 @@
     $selectedGroupBy = flat
   }
 
-  function handleSingle(newVal, storeToUpdate) {
-    // TODO: Why do I have to hardcode this instead of using storeToUpdate?
-    $selectedRollup = newVal.detail.value
-  }
-
 </script>
 
 <style>
@@ -77,7 +72,12 @@
     <span>Query</span>
   </div>
   <div style="min-width: 180px;">
-    <Select isClearable={false} bind:items={$nameItems} bind:selectedValue={$selectedName}></Select>
+    <Select
+      isClearable={false}
+      items={$nameItems}
+      selectedValue={{"label": $selectedName, "value": $selectedName}}
+      on:select={(selected) => $selectedName = selected.detail.value}
+    ></Select>
   </div>
   <div class="nonselect">
     <span>where</span>
@@ -99,7 +99,7 @@
       isClearable={false}
       items={rollupItems}
       selectedValue={rollupItems.filter(i => i.value == $selectedRollup)[0]}
-      on:select={(selectedVal) => handleSingle(selectedVal, $selectedRollup)}
+      on:select={(selected) => $selectedRollup = selected.detail.value}
     ></Select>
   </div>
   <div style="width: 100%; display: flex; justify-content: flex-end;">

@@ -16,7 +16,7 @@
   import {getOrElse, flatten} from './util.js'
 
   $: chartBody = JSON.stringify({
-    'event_name': $selectedName.value,
+    'event_name': $selectedName,
     'aggregation': $selectedAgg.value,
     'rollup': $selectedRollup,
     'start_time': $selectedRange.value[0],
@@ -26,7 +26,7 @@
   })
 
   $: rawBody = JSON.stringify({
-    'event_name': $selectedName.value,
+    'event_name': $selectedName,
     'aggregation': 'raw',
     'start_time': $selectedRange.value[0],
     'end_time': $selectedRange.value[1],
