@@ -1,5 +1,5 @@
 import { writable, derived } from 'svelte/store';
-import { getTimeRange, getOrElse, flatten } from './util.js';
+import { getTimeRange, getOrElse, flatten, getQueryParam } from './util.js';
 
 // ----------------------------------------------------------------------------
 
@@ -91,31 +91,30 @@ export const selectedGroupBy = writable([]);
 
 // ----------------------------------------------------------------------------
 
-function queryParamStore(param_name) {
+/*
+ * Custom state store which is backed by a normal Svelte `writable` store.
+ * Ensures that all updates are persisted to query param with name `paramName`
+ * so that when you refresh the page, this store is intact.
+ *
+ * Makes sharing of dashboards via URL possible, wahoo
+ */
+function queryParamStore(paramName, defaultValue) {
 
-  let paramDict = (new URL(document.location)).searchParams;
-
-  console.log(`${JSON.stringify(paramDict)}`)
-
-  //location.search="BRANDON"
-
-  let state = getOrElse(paramDict[param_name], {value: "1m", label: '1 Minute'});
-
-  console.log(`STARTING ${JSON.stringify(state)}`)
+  let state = getQueryParam(paramName, defaultValue)
 
   let innerStore = writable(state);
 
   return {
-    subscribe(newGuy) {
-      return innerStore.subscribe(newGuy)
+    subscribe(newSubscriber) {
+      return innerStore.subscribe(newSubscriber)
     },
-    set(newValue) {
-      let params = (new URL(document.location)).searchParams;
-      params.set("rollup", newValue)
-      window.history.pushState({page: 1}, "TITLE", "?" + params.toString())
-      return innerStore.set(newValue)
+    set(paramValue) {
+      let params = new URL(document.location).searchParams;
+      params.set(paramName, paramValue);
+      window.history.pushState({page: 1}, "", "?" + params.toString())
+      return innerStore.set(paramValue)
     }
   }
 }
 
-export const selectedRollup = queryParamStore("rollup")
+export const selectedRollup = queryParamStore("rollup", rollupItems[1].value)

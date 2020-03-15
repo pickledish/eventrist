@@ -18,7 +18,7 @@
   $: chartBody = JSON.stringify({
     'event_name': $selectedName.value,
     'aggregation': $selectedAgg.value,
-    'rollup': $selectedRollup.value,
+    'rollup': $selectedRollup,
     'start_time': $selectedRange.value[0],
     'end_time': $selectedRange.value[1],
     'filters': $selectedWhere.value,

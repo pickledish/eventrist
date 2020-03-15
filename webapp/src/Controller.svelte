@@ -9,14 +9,23 @@
   import {rollupItems, selectedRollup} from './Stores.js';
   import {groupByItems, selectedGroupBy} from './Stores.js';
 
-  import { getOrElse, flatten } from './util.js';
+  import { getOrElse, flatten, getQueryParam } from './util.js';
 
   function handleMulti(newVal, storeToUpdate) {
     let detail = getOrElse(newVal.detail, [])
     let flat = flatten(detail.map(elem => elem.value))
     console.log(flat)
+    // TODO: Why do I have to hardcode this instead of using storeToUpdate?
     $selectedGroupBy = flat
     console.log($selectedGroupBy)
+  }
+
+  function handleSingle(newVal, storeToUpdate) {
+    let detail = getOrElse(newVal.detail, [])
+    console.log(detail)
+    // TODO: Why do I have to hardcode this instead of using storeToUpdate?
+    $selectedRollup = detail.value
+    console.log($selectedRollup)
   }
 
 </script>
@@ -91,7 +100,12 @@
     <span>of each</span>
   </div>
   <div style="min-width: 120px;">
-    <Select isClearable={false} items={rollupItems} bind:selectedValue={$selectedRollup}></Select>
+    <Select
+      isClearable={false}
+      items={rollupItems}
+      selectedValue={rollupItems.filter(i => i.value == getQueryParam("rollup", $selectedRollup))[0]}
+      on:select={(selectedVal) => handleSingle(selectedVal, $selectedRollup)}
+    ></Select>
   </div>
   <div style="width: 100%; display: flex; justify-content: flex-end;">
     <div class="nonselect" style="border-left: 1px solid #d0d0d0;">
