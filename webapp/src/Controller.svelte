@@ -103,7 +103,7 @@
     <Select
       isClearable={false}
       items={rollupItems}
-      selectedValue={rollupItems.filter(i => i.value == getQueryParam("rollup", $selectedRollup))[0]}
+      selectedValue={rollupItems.filter(i => i.value == $selectedRollup)[0]}
       on:select={(selectedVal) => handleSingle(selectedVal, $selectedRollup)}
     ></Select>
   </div>
