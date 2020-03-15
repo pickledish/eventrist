@@ -89,7 +89,13 @@
     <span>take the</span>
   </div>
   <div style="min-width: 150px;">
-    <Select isClearable={false} items={aggItems} bind:selectedValue={$selectedAgg}></Select>
+    <!-- TODO: Mod this out this select component -->
+    <Select
+      isClearable={false}
+      items={aggItems}
+      selectedValue={aggItems.filter(i => i.value == $selectedAgg)[0]}
+      on:select={(selected) => $selectedAgg = selected.detail.value}
+    ></Select>
   </div>
   <div class="nonselect">
     <span>of each</span>

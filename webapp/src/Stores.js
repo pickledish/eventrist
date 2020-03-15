@@ -52,7 +52,7 @@ export const aggItems = [
   {value: "p99", label: '99th Percentile'},
 ];
 
-export const selectedAgg = writable(aggItems[0]);
+export const selectedAgg = queryParamStore("aggr", "cnt")
 
 // ----------------------------------------------------------------------------
 
@@ -117,4 +117,4 @@ function queryParamStore(paramName, defaultValue) {
   }
 }
 
-export const selectedRollup = queryParamStore("rollup", rollupItems[1].value)
+export const selectedRollup = queryParamStore("rollup", "1d")
