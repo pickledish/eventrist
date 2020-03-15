@@ -99,7 +99,7 @@
       });
     } else if ($currentView === "RAW") {
       myChart && myChart.destroy();
-      document.getElementById('rawEvents').innerHTML = "<div> HELLO </div>"
+      document.getElementById('rawEvents').innerHTML = `<div>${JSON.stringify(serieses)}</div>`
       console.log("Would have shown you the raw events now!")
     } else {
       console.log("Wanted to update the chart but it wasn't ready")

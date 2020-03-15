@@ -1,3 +1,4 @@
+import logging
 import time
 import typing
 
@@ -10,9 +11,12 @@ from starlette.middleware.cors import CORSMiddleware
 # -----------------------------------------------------------------------------
 
 app = FastAPI()
+logger = logging.getLogger("api")
 
 # wait for the influx container to actually start
 time.sleep(5)
+
+logger.info("Starting up!")
 
 # can't address by localhost or IP, need service name
 # https://docs.docker.com/compose/networking/
@@ -120,7 +124,7 @@ async def root(stream_id: str, query: QueryDefinition):
 
   query_string = f"{q_select} {q_from} {q_where} {q_group_by} {q_timezone}"
 
-  print(query_string)
+  logger.info(query_string)
 
   return client.query(query_string, database=stream_id).raw
 

@@ -3,10 +3,19 @@
   import MyChart from './MyChart.svelte'
   import Controller from './Controller.svelte'
 
-  import {selectedName, nameItems, selectedWhere, selectedAgg, selectedRollup, selectedRange, selectedGroupBy} from './Stores.js';
+  import {
+    currentView,
+    selectedName,
+    nameItems,
+    selectedWhere,
+    selectedAgg,
+    selectedRollup,
+    selectedRange,
+    selectedGroupBy
+  } from './Stores.js';
   import {getOrElse, flatten} from './util.js'
 
-  $: body = JSON.stringify({
+  $: chartBody = JSON.stringify({
     'event_name': $selectedName.value,
     'aggregation': $selectedAgg.value,
     'rollup': $selectedRollup.value,
@@ -15,6 +24,17 @@
     'filters': $selectedWhere.value,
     'group_by': $selectedGroupBy,
   })
+
+  $: rawBody = JSON.stringify({
+    'event_name': $selectedName.value,
+    'aggregation': 'raw',
+    'start_time': $selectedRange.value[0],
+    'end_time': $selectedRange.value[1],
+    'filters': $selectedWhere.value,
+    // no group by or rollup for raw events
+  })
+
+  $: body = $currentView == "RAW" ? rawBody : chartBody
 
   function Series(label, times, values) {
     this.label = label;
@@ -38,7 +58,11 @@
       body: body
     })
     .then(response => response.json())
-    .then(json => {serieses = getOrElse(json.series, []).map(s => influxToSeries(s))})
+    .then(json => {
+      console.log(`Executed request ${body}`)
+      console.log(`Got response ${JSON.stringify(json)}`)
+      serieses = getOrElse(json.series, []).map(s => influxToSeries(s))
+    })
 
   fetch("http://127.0.0.1:8000/stream/abcd/names", {
       method: 'POST',
