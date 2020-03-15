@@ -41,10 +41,10 @@ export const selectedRange = writable(rangeItems[2]);
 
 export const aggItems = [
   {value: "cnt", label: 'Count'},
+  {value: "sum", label: 'Sum'},
   {value: "max", label: 'Maximum'},
   {value: "min", label: 'Minimum'},
   {value: "avg", label: 'Average'},
-  {value: "sum", label: 'Sum'},
   {value: "p50", label: 'Median'},
   {value: "p75", label: '75th Percentile'},
   {value: "p90", label: '90th Percentile'},

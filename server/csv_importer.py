@@ -9,7 +9,7 @@ import requests
 
 ROOT_URL = "http://127.0.0.1:8000"
 
-def send_to_influx(source, row):
+def send_to_influx(source, row, dry_run):
 	"""
 	"""
 	special_params = {"name": source.get("event_name")}
@@ -38,10 +38,13 @@ def send_to_influx(source, row):
 
 	request = {**row, **special_params}
 
-	requests.post(f"{ROOT_URL}/stream/{source.get('stream_id')}/write", json=request)
+	if dry_run:
+		print(request)
+	else:
+		requests.post(f"{ROOT_URL}/stream/{source.get('stream_id')}/write", json=request)
 
 
-def main(input_file, source_name):
+def main(input_file, source_name, dry_run):
 	"""
 	"""
 	# TODO: actually keep this account-level info in some persistent db! Hah
@@ -60,7 +63,7 @@ def main(input_file, source_name):
 	with open(input_location, mode='r', encoding='utf-8-sig') as file_obj:
 		reader = csv.DictReader(file_obj)
 		for row in reader:
-			send_to_influx(source, row)
+			send_to_influx(source, row, dry_run)
 
 
 def get_parser():
@@ -69,6 +72,7 @@ def get_parser():
 	parser = argparse.ArgumentParser(description="Given a source and a file, imports CSV")
 	parser.add_argument("-f", "--input-file", help="File to import, or '-' for stdin", required=True)
 	parser.add_argument("-s", "--source-name", help="Name of (existing) source mapper", required=True)
+	parser.add_argument("--dry-run", help="Just print, don't send anything", action="store_true")
 	return parser
 
 
