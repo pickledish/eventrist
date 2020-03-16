@@ -35,7 +35,7 @@
       'backgroundColor': stringToColor(tuple.label),
       'lineTension': 0.03, // corners not so sharp as to cut you
       'pointRadius': 0, // don't draw individual points, it's a line
-      'pointHitRadius': 16, // make hovering on a point a little easier
+      'pointHitRadius': 8, // make hovering on a point a little easier
       'fill': ($currentView === "BAR"),
     }
   }
