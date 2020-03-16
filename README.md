@@ -11,6 +11,7 @@ Not deployed to the [interblag](https://xkcd.com/181/) yet but will be soon.
 A lot more features to come (none are too hard), including but not limited to:
   - ~ability to group by multiple tags~
   - ~more/nicer autocomplete~
+  - ~graph sharing via link query params~
   - zooming and custom ranges (ok this might be hard)
   - easy view of raw events when needed
   - ability to define CSV and webhook sources

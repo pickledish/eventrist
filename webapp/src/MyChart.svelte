@@ -31,9 +31,11 @@
       'label': tuple.label,
       'data': tuple.values.map(v => v || 0),
       'borderColor': stringToColor(tuple.label),
+      'borderWidth': 2, // slightly thinner than the default lines
       'backgroundColor': stringToColor(tuple.label),
-      'lineTension': 0,
-      'pointRadius': 2,
+      'lineTension': 0.03, // corners not so sharp as to cut you
+      'pointRadius': 0, // don't draw individual points, it's a line
+      'pointHitRadius': 16, // make hovering on a point a little easier
       'fill': ($currentView === "BAR"),
     }
   }

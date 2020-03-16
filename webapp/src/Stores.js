@@ -65,7 +65,7 @@ export const rollupItems = [
   {value: "30d", label: '1 Month'},
 ];
 
-//export const selectedRollup = writable(rollupItems[1]);
+export const selectedRollup = queryParamStore("rollup", "1d")
 
 // ----------------------------------------------------------------------------
 
@@ -101,7 +101,6 @@ export const selectedGroupBy = writable([]);
 function queryParamStore(paramName, defaultValue) {
 
   let currentValue = getQueryParam(paramName, defaultValue)
-
   let innerStore = writable(currentValue);
 
   return {
@@ -114,5 +113,3 @@ function queryParamStore(paramName, defaultValue) {
     }
   }
 }
-
-export const selectedRollup = queryParamStore("rollup", "1d")
