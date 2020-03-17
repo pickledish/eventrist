@@ -2,6 +2,8 @@
 
   import Select from 'svelte-select';
 
+  import { get } from 'svelte/store';
+
   import {nameItems, selectedName} from './Stores.js';
   import {whereItems, selectedWhere} from './Stores.js';
   import {rangeItems, selectedRange} from './Stores.js';
@@ -9,7 +11,7 @@
   import {rollupItems, selectedRollup} from './Stores.js';
   import {groupByItems, selectedGroupBy} from './Stores.js';
 
-  import { get } from 'svelte/store';
+  import Selector from './Selector.svelte'
 
   import { getOrElse, flatten, getQueryParam } from './util.js';
 
@@ -97,29 +99,10 @@
   <div style="min-width: 180px;">
     <Select isClearable={false} isCreatable={true} items={whereItems} bind:selectedValue={$selectedWhere}></Select>
   </div>
-  <div class="nonselect">
-    <span>take the</span>
-  </div>
-  <div style="min-width: 150px;">
-    <!-- TODO: Mod this out this select component -->
-    <Select
-      isClearable={false}
-      items={aggItems}
-      selectedValue={aggItems.filter(i => i.value == $selectedAgg)[0]}
-      on:select={(selected) => $selectedAgg = selected.detail.value}
-    ></Select>
-  </div>
-  <div class="nonselect">
-    <span>of each</span>
-  </div>
-  <div style="min-width: 120px;">
-    <Select
-      isClearable={false}
-      items={rollupItems}
-      selectedValue={rollupItems.filter(i => i.value == $selectedRollup)[0]}
-      on:select={(selected) => $selectedRollup = selected.detail.value}
-    ></Select>
-  </div>
+
+  <Selector pickerLabel={"take the"} pickerItems={aggItems} pickerStore={selectedAgg}/>
+  <Selector pickerLabel={"of each"} pickerItems={rollupItems} pickerStore={selectedRollup}/>
+
   <div style="width: 100%; display: flex; justify-content: flex-end;">
     <div class="nonselect" style="border-left: 1px solid #d0d0d0;">
       <span>Graph by</span>
