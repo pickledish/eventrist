@@ -29,9 +29,13 @@ export function getQueryParam(paramName, defaultValue) {
 export function setQueryParam(paramName, newValue) {
   let params = new URL(document.location).searchParams;
   if (Array.isArray(newValue)) {
-    params.set(paramName, newValue.join(','))
+    if (newValue.length == 0) {
+      params.delete(paramName);
+    } else {
+      params.set(paramName, newValue.join(','));
+    }
   } else {
     params.set(paramName, newValue);
   }
-  window.history.pushState({}, "", "?" + params.toString())
+  window.history.pushState({}, "", "?" + params.toString());
 }
