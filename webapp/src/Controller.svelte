@@ -9,14 +9,25 @@
   import {rollupItems, selectedRollup} from './Stores.js';
   import {groupByItems, selectedGroupBy} from './Stores.js';
 
+  import { get } from 'svelte/store';
+
   import { getOrElse, flatten, getQueryParam } from './util.js';
 
   function handleGroupBy(newVal) {
-    let detail = getOrElse(newVal.detail, [])
-    let flat = flatten(detail.map(elem => elem.value))
+    let flat =
     // TODO: Why do I have to hardcode this instead of using input param?
-    console.log(`FLAT IS ${flat}`)
+    console.log(`FLAT IS ${JSON.stringify(flat)}`)
     selectedGroupBy.set(flat)
+    console.log(`AFTER SET IS ${JSON.stringify(getQueryParam("group_by"))}`)
+    console.log(`AND STORE IS ${JSON.stringify($selectedGroupBy)}`)
+  }
+
+  function shouldInclude(i) {
+    console.log(get(selectedGroupBy))
+    console.log(i)
+    let returner = get(selectedGroupBy).includes(i.value)
+    console.log(returner)
+    return returner
   }
 
 </script>
@@ -114,13 +125,16 @@
       <span>Graph by</span>
     </div>
     <div style="min-width: 150px;">
+      <!-- BUG: trying to selectedGroupBy in the filter statement causes duplicate calls, no work -->
+      <!-- I guess changes to $selectedGroupBy cause this to be recomputed? -->
+      <!-- Fix by getting an immutable copy from the store, no subscribing: https://svelte.dev/docs#get -->
       <Select
         isClearable={false}
         items={$groupByItems}
         isMulti={true}
         placeholder={"(everything)"}
-        selectedValue={getOrElse($groupByItems, []).filter(i => $selectedGroupBy.includes(i.value))}
-        on:select={(selected) => handleGroupBy(selected)}
+        selectedValue={getOrElse($groupByItems, []).filter(i => shouldInclude(i))}
+        on:select={(selected) => $selectedGroupBy = flatten(getOrElse(selected.detail, []).map(elem => elem.value))}
       ></Select>
     </div>
   </div>

@@ -70,7 +70,7 @@ export const selectedRollup = queryParamStore("rollup", "1d")
 // ----------------------------------------------------------------------------
 
 function makeShit(tagval) {
-  return {"value": [tagval], "label": tagval}
+  return {"value": tagval, "label": tagval}
 }
 
 export const groupByItems = derived(
