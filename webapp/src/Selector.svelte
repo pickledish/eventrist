@@ -13,20 +13,15 @@
 
   // DONE: pickerITEMS needs to be reactive ($, not get()), pickerSTORE needs to NOT be
 
-  let safeItems = readable(pickerItems);
-
   function stupidStoreWrapper(store) {
     return {
-      subscribe(newSubscriber) {
-        return store.subscribe(newSubscriber)
-      },
-      set(newValue) {
-        return store.set(newValue)
-      }
+      subscribe(newSubscriber) { return store.subscribe(newSubscriber) },
+      set(newValue) { return store.set(newValue) }
     }
   }
 
   // make sure we support both Svelte stores and normal lists of options
+  let safeItems = readable(pickerItems);
   if (typeof pickerItems.subscribe == 'function') {
     safeItems = stupidStoreWrapper(pickerItems);
   }
@@ -43,15 +38,15 @@
     /* nothing! */
   }
   .first {
-    border-left: 1px solid #d0d0d0;
+    border-left: 1px solid #D8DBDF;
   }
   .last {
-    border-right: 1px solid #d0d0d0;
+    border-right: 1px solid #D8DBDF;
   }
   .label {
-    background-color: #f2f2f2;
-    border-top: 1px solid #d0d0d0;
-    border-bottom: 1px solid #d0d0d0;
+    background-color: #f4f4f4;
+    border-top: 1px solid #D8DBDF;
+    border-bottom: 1px solid #D8DBDF;
     height: 36px;
     padding: 0 16px 0 16px;
     display: flex;
