@@ -11,11 +11,12 @@
 
   import { getOrElse, flatten, getQueryParam } from './util.js';
 
-  function handleMulti(newVal, storeToUpdate) {
+  function handleGroupBy(newVal) {
     let detail = getOrElse(newVal.detail, [])
     let flat = flatten(detail.map(elem => elem.value))
-    // TODO: Why do I have to hardcode this instead of using storeToUpdate?
-    $selectedGroupBy = flat
+    // TODO: Why do I have to hardcode this instead of using input param?
+    console.log(`FLAT IS ${flat}`)
+    selectedGroupBy.set(flat)
   }
 
 </script>
@@ -118,7 +119,8 @@
         items={$groupByItems}
         isMulti={true}
         placeholder={"(everything)"}
-        on:select={(selectedVal) => handleMulti(selectedVal, $selectedGroupBy)}
+        selectedValue={getOrElse($groupByItems, []).filter(i => $selectedGroupBy.includes(i.value))}
+        on:select={(selected) => handleGroupBy(selected)}
       ></Select>
     </div>
   </div>

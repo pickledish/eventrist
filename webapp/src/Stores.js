@@ -87,7 +87,7 @@ export const groupByItems = derived(
   }
 );
 
-export const selectedGroupBy = writable([]);
+export const selectedGroupBy = queryParamStore("group_by", []);
 
 // ----------------------------------------------------------------------------
 
@@ -108,6 +108,7 @@ function queryParamStore(paramName, defaultValue) {
       return innerStore.subscribe(newSubscriber)
     },
     set(newValue) {
+      console.log(`RECEIVED SET REQ to ${newValue}`)
       setQueryParam(paramName, newValue)
       return innerStore.set(newValue)
     }
