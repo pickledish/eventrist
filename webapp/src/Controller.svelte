@@ -82,17 +82,10 @@
 </div>
 
 <div class="themed">
-  <div class="nonselect" style="border-left: 1px solid #d0d0d0;">
-    <span>Query</span>
-  </div>
-  <div style="min-width: 180px;">
-    <Select
-      isClearable={false}
-      items={$nameItems}
-      selectedValue={{"label": $selectedName, "value": $selectedName}}
-      on:select={(selected) => $selectedName = selected.detail.value}
-    ></Select>
-  </div>
+
+  <!-- Small issue: Current impl of these ~~deliberately~~ didn't react to changes in store, need to make that configurable -->
+  <Selector pickerLabel="Query" pickerItems={nameItems} pickerStore={selectedName} pickerOrder="first"/>
+
   <div class="nonselect">
     <span>where</span>
   </div>

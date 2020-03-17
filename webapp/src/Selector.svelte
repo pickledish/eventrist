@@ -6,6 +6,7 @@
   export let pickerLabel;
   export let pickerItems;
   export let pickerStore;
+  export let pickerOrder = "middle";
 
   let safeItems = [];
 
@@ -23,6 +24,15 @@
     font-size: 10pt;
     display: flex;
     white-space: nowrap;
+  }
+  .middle {
+    /* nothing! */
+  }
+  .first {
+    border-left: 1px solid #d0d0d0;
+  }
+  .last {
+    border-right: 1px solid #d0d0d0;
   }
   .label {
     background-color: #f2f2f2;
@@ -54,7 +64,7 @@
 </style>
 
 <div>
-  <div class="label">
+  <div class="label {pickerOrder}">
     <span>{pickerLabel}</span>
   </div>
   <div class="picker">
