@@ -2,19 +2,33 @@
 
   import { get } from 'svelte/store';
   import Select from 'svelte-select';
+  import { readable } from 'svelte/store';
+
+  import { getOrElse } from './util.js';
 
   export let pickerLabel;
   export let pickerItems;
   export let pickerStore;
   export let pickerOrder = "middle";
 
-  let safeItems = [];
+  // DONE: pickerITEMS needs to be reactive ($, not get()), pickerSTORE needs to NOT be
+
+  let safeItems = readable(pickerItems);
+
+  function stupidStoreWrapper(store) {
+    return {
+      subscribe(newSubscriber) {
+        return store.subscribe(newSubscriber)
+      },
+      set(newValue) {
+        return store.set(newValue)
+      }
+    }
+  }
 
   // make sure we support both Svelte stores and normal lists of options
   if (typeof pickerItems.subscribe == 'function') {
-    safeItems = get(pickerItems);
-  } else {
-    safeItems = pickerItems;
+    safeItems = stupidStoreWrapper(pickerItems);
   }
 
 </script>
@@ -47,8 +61,8 @@
   }
   .picker {
     --borderRadius: 0px;
-    --itemPadding: 0px 0px 0px 16px;
     --selectedItemPadding: 0px 0px 0px 0px;
+    --itemPadding: 0px 16px 0px 16px;
     --height: 36px;
     --listMaxHeight: 300px;
     --inputFontSize: 10pt;
@@ -70,8 +84,8 @@
   <div class="picker">
     <Select
       isClearable={false}
-      items={safeItems}
-      selectedValue={safeItems.filter(i => i.value == get(pickerStore))[0]}
+      items={$safeItems}
+      selectedValue={getOrElse($safeItems.filter(i => i.value == get(pickerStore))[0], {"label": get(pickerStore), "value": get(pickerStore)})}
       on:select={(item) => pickerStore.set(item.detail.value)}
     ></Select>
   </div>

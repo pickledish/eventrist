@@ -25,10 +25,7 @@
   }
 
   function shouldInclude(i) {
-    console.log(get(selectedGroupBy))
-    console.log(i)
     let returner = get(selectedGroupBy).includes(i.value)
-    console.log(returner)
     return returner
   }
 
@@ -83,7 +80,6 @@
 
 <div class="themed">
 
-  <!-- Small issue: Current impl of these ~~deliberately~~ didn't react to changes in store, need to make that configurable -->
   <Selector pickerLabel="Query" pickerItems={nameItems} pickerStore={selectedName} pickerOrder="first"/>
 
   <div class="nonselect">

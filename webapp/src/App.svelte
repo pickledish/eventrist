@@ -69,7 +69,10 @@
       headers: {'Content-Type': 'application/json'},
   })
   .then(response => response.json())
-  .then(json => $nameItems = flatten(json['series'][0]['values']))
+  .then(json => {
+    console.log(`name items is updated: ${json}`)
+    $nameItems = flatten(json['series'][0]['values'])
+  })
 
 </script>
 
