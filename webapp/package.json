@@ -16,6 +16,7 @@
     "svelte": "^3.0.0"
   },
   "dependencies": {
+    "c3": "^0.7.15",
     "chart.js": "^2.9.3",
     "sirv-cli": "^0.4.4",
     "svelte-select": "^3.4.0"

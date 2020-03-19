@@ -35,7 +35,7 @@ export const rangeItems = [
   {value: getTimeRange(15552000000), label: 'Last 6 months'},
 ];
 
-export const selectedRange = writable(rangeItems[2]);
+export const selectedRange = writable(rangeItems[5]);
 
 // ----------------------------------------------------------------------------
 

@@ -80,7 +80,7 @@
 
 <div class="themed">
 
-  <Selector pickerLabel="Query" pickerItems={nameItems} pickerStore={selectedName} pickerOrder="first"/>
+  <Selector pickerLabel={"Query"} pickerItems={nameItems} pickerStore={selectedName} pickerOrder="first"/>
 
   <div class="nonselect">
     <span>where</span>
@@ -96,7 +96,7 @@
     <div class="nonselect" style="border-left: 1px solid #d0d0d0;">
       <span>Graph by</span>
     </div>
-    <div style="min-width: 150px;">
+    <div>
       <!-- BUG: trying to selectedGroupBy in the filter statement causes duplicate calls, no work -->
       <!-- I guess changes to $selectedGroupBy cause this to be recomputed? -->
       <!-- Fix by getting an immutable copy from the store, no subscribing: https://svelte.dev/docs#get -->
