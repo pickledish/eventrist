@@ -123,7 +123,8 @@
     if (initialized) {
 
       console.log(JSON.stringify(serieses.times));
-      let parsedTimes = serieses[0].times.map(t => Date.parse(t));
+      let fixedSerieses = (serieses.length == 0) ? [{'times': []}] : serieses;
+      let parsedTimes = fixedSerieses[0].times.map(t => Date.parse(t));
       let realParsedTimes = (parsedTimes.length == 0) ? [Date.parse("2020-02-21T00:00:00-05:00")] : parsedTimes;
       console.log(JSON.stringify(parsedTimes));
 
@@ -137,7 +138,7 @@
             ['x'].concat(realParsedTimes),
             ...arrays
           ],
-          type: 'bar',
+          type: 'line',
           groups: [arrays.map(arr => arr[0])]
         },
         axis: {

@@ -11,7 +11,7 @@ def create_event(day_ms):
   return {
     "name": "order_time_ms",
     "time": int(day_ms + random.uniform(0, 86400000)),
-    "value": abs(float(random.gauss(mu=(day_ms - FIRST_DAY)/86400000/10, sigma=1))),
+    "value": abs(float(random.gauss(mu=(day_ms - FIRST_DAY)/86400000/10, sigma=2.5))),
     "chain": random.choice(["mcdonwald", "burger queen", "springfield market", "subnoway"]),
     "food_type": random.choice(["chicken", "chicken", "chicken", "tofu", "salad"]),
     "trace_id": str(uuid.uuid4())
