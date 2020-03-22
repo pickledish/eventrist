@@ -4,7 +4,7 @@
 
   import { onMount, afterUpdate } from 'svelte';
 
-  import { selectedRollup, currentView } from './Stores.js';
+  import { selectedRollup, selectedRange, currentView } from './Stores.js';
 
   import c3 from 'c3';
 
@@ -138,8 +138,22 @@
             ['x'].concat(realParsedTimes),
             ...arrays
           ],
-          type: 'line',
+          type: 'bar',
           groups: [arrays.map(arr => arr[0])]
+        },
+        zoom: {
+          enabled: true,
+          type: 'drag',
+          disableDefaultBehavior: true,
+          onzoomend: d => $selectedRange = {value: d.map(t => t.getTime()), label: 'Custom range!'},
+        },
+        point: {
+          r: 0,
+            focus: {
+            expand: {
+              r: 3.5
+            }
+          }
         },
         axis: {
           x: {
