@@ -13,7 +13,7 @@
 
   import Selector from './Selector.svelte'
 
-  import { getOrElse, flatten, getQueryParam } from './util.js';
+  import { getOrElse, flatten } from './util.js';
 
 </script>
 

@@ -35,7 +35,7 @@ export const rangeItems = [
   {value: getTimeRange(15552000000), label: 'Last 6 months'},
 ];
 
-export const selectedRange = writable(rangeItems[5].value);
+export const selectedRange = queryParamStore("timerange", rangeItems[5].value);
 
 // ----------------------------------------------------------------------------
 
@@ -108,7 +108,6 @@ function queryParamStore(paramName, defaultValue) {
       return innerStore.subscribe(newSubscriber)
     },
     set(newValue) {
-      console.log(`RECEIVED SET REQ to ${newValue}`)
       setQueryParam(paramName, newValue)
       return innerStore.set(newValue)
     }
