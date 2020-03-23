@@ -19,18 +19,18 @@
     'event_name': $selectedName,
     'aggregation': $selectedAgg,
     'rollup': $selectedRollup,
-    'start_time': $selectedRange.value[0],
-    'end_time': $selectedRange.value[1],
-    'filters': $selectedWhere.value,
+    'start_time': $selectedRange[0],
+    'end_time': $selectedRange[1],
+    'filters': "",
     'group_by': $selectedGroupBy,
   })
 
   $: rawBody = JSON.stringify({
     'event_name': $selectedName,
     'aggregation': 'raw',
-    'start_time': $selectedRange.value[0],
-    'end_time': $selectedRange.value[1],
-    'filters': $selectedWhere.value,
+    'start_time': $selectedRange[0],
+    'end_time': $selectedRange[1],
+    'filters': $selectedWhere,
     // no group by or rollup for raw events
   })
 

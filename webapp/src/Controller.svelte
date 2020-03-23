@@ -56,12 +56,7 @@
 </style>
 
 <div class="themed" style="justify-content: flex-end;">
-  <div class="nonselect" style="border-left: 1px solid #d0d0d0;">
-    <span>Time Range</span>
-  </div>
-  <div style="width: 150px; display: inline-block;">
-      <Select isClearable={false} items={rangeItems} bind:selectedValue={$selectedRange}></Select>
-  </div>
+  <Selector pickerLabel={"Time Range"} pickerItems={rangeItems} pickerStore={selectedRange} pickerOrder={"first"}/>
 </div>
 
 <div class="themed">
@@ -71,7 +66,7 @@
   <Selector pickerLabel={"take the"} pickerItems={aggItems} pickerStore={selectedAgg}/>
   <Selector pickerLabel={"of each"} pickerItems={rollupItems} pickerStore={selectedRollup}/>
 
-  <!-- UGLLYYYYY please convert me to the above, too! -->
+  <!-- UGLLYYYYY please convert me to a Selector, too! -->
   <div style="width: 100%; display: flex; justify-content: flex-end;">
     <div class="nonselect" style="border-left: 1px solid #d0d0d0;">
       <span>Graph by</span>

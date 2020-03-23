@@ -153,7 +153,7 @@
           enabled: true,
           type: 'drag',
           disableDefaultBehavior: true,
-          onzoomend: d => $selectedRange = {value: d.map(t => t.getTime()), label: 'Custom range'},
+          onzoomend: d => $selectedRange = d.map(t => t.getTime()),
         },
         point: {
           r: 0,

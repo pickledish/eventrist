@@ -20,7 +20,7 @@ export const whereItems = [
   {value: "", label: '(everything)'},
 ];
 
-export const selectedWhere = writable(whereItems[0]);
+export const selectedWhere = writable(whereItems[0].value);
 
 // ----------------------------------------------------------------------------
 
@@ -35,7 +35,7 @@ export const rangeItems = [
   {value: getTimeRange(15552000000), label: 'Last 6 months'},
 ];
 
-export const selectedRange = writable(rangeItems[5]);
+export const selectedRange = writable(rangeItems[5].value);
 
 // ----------------------------------------------------------------------------
 
