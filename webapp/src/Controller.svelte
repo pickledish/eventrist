@@ -15,20 +15,6 @@
 
   import { getOrElse, flatten, getQueryParam } from './util.js';
 
-  function handleGroupBy(newVal) {
-    let flat =
-    // TODO: Why do I have to hardcode this instead of using input param?
-    console.log(`FLAT IS ${JSON.stringify(flat)}`)
-    selectedGroupBy.set(flat)
-    console.log(`AFTER SET IS ${JSON.stringify(getQueryParam("group_by"))}`)
-    console.log(`AND STORE IS ${JSON.stringify($selectedGroupBy)}`)
-  }
-
-  function shouldInclude(i) {
-    let returner = get(selectedGroupBy).includes(i.value)
-    return returner
-  }
-
 </script>
 
 <style>
@@ -80,18 +66,12 @@
 
 <div class="themed">
 
-  <Selector pickerLabel={"Query"} pickerItems={nameItems} pickerStore={selectedName} pickerOrder="first"/>
-
-  <div class="nonselect">
-    <span>where</span>
-  </div>
-  <div style="min-width: 180px;">
-    <Select isClearable={false} isCreatable={true} items={whereItems} bind:selectedValue={$selectedWhere}></Select>
-  </div>
-
+  <Selector pickerLabel={"Query"} pickerItems={nameItems} pickerStore={selectedName} pickerOrder={"first"}/>
+  <Selector pickerLabel={"where"} pickerItems={whereItems} pickerStore={selectedWhere}/>
   <Selector pickerLabel={"take the"} pickerItems={aggItems} pickerStore={selectedAgg}/>
   <Selector pickerLabel={"of each"} pickerItems={rollupItems} pickerStore={selectedRollup}/>
 
+  <!-- UGLLYYYYY please convert me to the above, too! -->
   <div style="width: 100%; display: flex; justify-content: flex-end;">
     <div class="nonselect" style="border-left: 1px solid #d0d0d0;">
       <span>Graph by</span>
@@ -105,7 +85,7 @@
         items={$groupByItems}
         isMulti={true}
         placeholder={"(everything)"}
-        selectedValue={getOrElse($groupByItems, []).filter(i => shouldInclude(i))}
+        selectedValue={getOrElse($groupByItems, []).filter(i => get(selectedGroupBy).includes(i.value))}
         on:select={(selected) => $selectedGroupBy = flatten(getOrElse(selected.detail, []).map(elem => elem.value))}
       ></Select>
     </div>

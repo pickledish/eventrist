@@ -169,6 +169,7 @@
             tick: {
               format: chartTickFormat,
               rotate: -45,
+              //values: this.every(15, 'minutes'),
             },
           },
         },
