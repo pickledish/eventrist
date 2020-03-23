@@ -119,6 +119,14 @@
   var chart;
   var initialized = false;
 
+  $: chartTickFormat =
+    ($selectedRollup === "1m")  ? "%H:%M:%S" :
+    ($selectedRollup === "1h")  ? "%H:%M" :
+    ($selectedRollup === "6h")  ? "%Y-%m-%d %H:%M":
+    ($selectedRollup === "1w")  ? "%Y-%m-%d" :
+    ($selectedRollup === "30d") ? "%Y-%m-%d" :
+                                  "%Y-%m-%d";
+
   $: {
     if (initialized) {
 
@@ -138,14 +146,14 @@
             ['x'].concat(realParsedTimes),
             ...arrays
           ],
-          type: 'bar',
-          groups: [arrays.map(arr => arr[0])]
+          type: ($currentView == 'bar') ? 'bar' : 'line',
+          groups: ($currentView == 'bar') ? [arrays.map(arr => arr[0])] : []
         },
         zoom: {
           enabled: true,
           type: 'drag',
           disableDefaultBehavior: true,
-          onzoomend: d => $selectedRange = {value: d.map(t => t.getTime()), label: 'Custom range!'},
+          onzoomend: d => $selectedRange = {value: d.map(t => t.getTime()), label: 'Custom range'},
         },
         point: {
           r: 0,
@@ -159,7 +167,7 @@
           x: {
             type: 'timeseries',
             tick: {
-              format: '%Y-%m-%d %H:%M:%S',
+              format: chartTickFormat,
               rotate: -45,
             },
           },
@@ -189,8 +197,8 @@
 
 <main>
   <div id="myChart">helo</div>
-  <button on:click={() => $currentView = "BAR"}>See Bar Chart</button>
-  <button on:click={() => $currentView = "LINE"}>See Line Chart</button>
-  <button on:click={() => $currentView = "RAW"}>See Raw Events</button>
+  <button on:click={() => $currentView = "bar"}>See Bar Chart</button>
+  <button on:click={() => $currentView = "line"}>See Line Chart</button>
+  <button on:click={() => $currentView = "raw"}>See Raw Events</button>
   <div id="rawEvents" width="1200px" height="400px"></div>
 </main>
