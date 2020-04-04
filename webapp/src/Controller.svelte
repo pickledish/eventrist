@@ -56,17 +56,18 @@
 </style>
 
 <div class="themed" style="justify-content: flex-end;">
-  <Selector pickerLabel={"Time Range"} pickerItems={rangeItems} pickerStore={selectedRange} pickerOrder={"first"}/>
+  <Selector label={"Time Range"} items={rangeItems} store={selectedRange} leading={true}/>
 </div>
 
 <div class="themed">
 
-  <Selector pickerLabel={"Query"} pickerItems={nameItems} pickerStore={selectedName} pickerOrder={"first"}/>
-  <Selector pickerLabel={"where"} pickerItems={whereItems} pickerStore={selectedWhere}/>
-  <Selector pickerLabel={"take the"} pickerItems={aggItems} pickerStore={selectedAgg}/>
-  <Selector pickerLabel={"of each"} pickerItems={rollupItems} pickerStore={selectedRollup}/>
+  <Selector label={"Query"} items={nameItems} store={selectedName} leading={true}/>
+  <Selector label={"where"} items={whereItems} store={selectedWhere}/>
+  <Selector label={"take the"} items={aggItems} store={selectedAgg}/>
+  <Selector label={"of each"} items={rollupItems} store={selectedRollup}/>
+  <!--<Selector label={"graphy by"} items={groupByItems} store={selectedGroupBy} leading={true} multi={true}/>-->
 
-  <!-- UGLLYYYYY please convert me to a Selector, too! -->
+  <!-- UGLLYYYYY please convert me to a Selector, too! Hard because it's a multi -->
   <div style="width: 100%; display: flex; justify-content: flex-end;">
     <div class="nonselect" style="border-left: 1px solid #d0d0d0;">
       <span>Graph by</span>

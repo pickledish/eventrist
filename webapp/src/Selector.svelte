@@ -6,10 +6,10 @@
 
   import { getOrElse } from './util.js';
 
-  export let pickerLabel;
-  export let pickerItems;
-  export let pickerStore;
-  export let pickerOrder = "middle";
+  export let label;
+  export let items;
+  export let store;
+  export let leading = false;
 
   // DONE: pickerITEMS needs to be reactive ($, not get()), pickerSTORE needs to NOT be
 
@@ -21,9 +21,9 @@
   }
 
   // make sure we support both Svelte stores and normal lists of options
-  let safeItems = readable(pickerItems);
-  if (typeof pickerItems.subscribe == 'function') {
-    safeItems = stupidStoreWrapper(pickerItems);
+  let safeItems = readable(items);
+  if (typeof items.subscribe == 'function') {
+    safeItems = stupidStoreWrapper(items);
   }
 
 </script>
@@ -73,15 +73,15 @@
 </style>
 
 <div>
-  <div class="label {pickerOrder}">
-    <span>{pickerLabel}</span>
+  <div class="label {(leading) ? "first" : "middle"}">
+    <span>{label}</span>
   </div>
   <div class="picker">
     <Select
       isClearable={false}
       items={$safeItems}
-      selectedValue={getOrElse($safeItems.filter(i => i.value == get(pickerStore))[0], {"label": get(pickerStore), "value": get(pickerStore)})}
-      on:select={(item) => pickerStore.set(item.detail.value)}
+      selectedValue={getOrElse($safeItems.filter(i => i.value == get(store))[0], {"label": get(store), "value": get(store)})}
+      on:select={(item) => store.set(item.detail.value)}
     ></Select>
   </div>
 </div>

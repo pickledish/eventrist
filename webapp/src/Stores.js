@@ -87,7 +87,7 @@ export const groupByItems = derived(
   }
 );
 
-export const selectedGroupBy = queryParamStore("group_by", []);
+export const selectedGroupBy = queryParamStore("groupby", []);
 
 // ----------------------------------------------------------------------------
 
