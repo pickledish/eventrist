@@ -173,6 +173,11 @@
             },
           },
         },
+        grid: {
+          y: {
+            show: true,
+          },
+        },
       });
     } else {
       console.log("Wanted to update the chart but it wasn't ready")
