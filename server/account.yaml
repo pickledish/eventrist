@@ -1,4 +1,6 @@
 sources:
+  default:
+    foo: 1
   lunch_money_csv:
     source_type: "csv"
     stream_id: "abcd"

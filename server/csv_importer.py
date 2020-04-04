@@ -60,7 +60,7 @@ def main(input_file, source_name, dry_run):
 
 	input_location = input_file if input_file != "=" else "/dev/stdin"
 
-	with open(input_location, mode='r', encoding='utf-8-sig') as file_obj:
+	with open(input_location, mode='r') as file_obj:
 		reader = csv.DictReader(file_obj)
 		for row in reader:
 			send_to_influx(source, row, dry_run)
