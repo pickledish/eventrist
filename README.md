@@ -24,3 +24,10 @@ Here's what it looks like so far (dummy data), please don't judge it's very earl
 ![a line chart](line.png)
 
 ![a stacked bar chart](bar.png)
+
+## Relevant Links and Issues
+
+- https://github.com/rob-balfre/svelte-select
+- https://c3js.org/reference.html
+- https://github.com/influxdata/influxdb/issues/7195
+- https://github.com/influxdata/influxdb/issues/3991
