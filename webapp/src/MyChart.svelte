@@ -150,10 +150,10 @@
           groups: ($currentView == 'bar') ? [arrays.map(arr => arr[0])] : []
         },
         zoom: {
-          enabled: true,
-          type: 'drag',
-          disableDefaultBehavior: true,
-          onzoomend: d => $selectedRange = d.map(t => t.getTime()),
+          // enabled: true,
+          // type: 'drag',
+          // disableDefaultBehavior: true,
+          // onzoomend: d => $selectedRange = d.map(t => t.getTime()),
         },
         point: {
           r: 0,

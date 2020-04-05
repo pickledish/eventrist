@@ -1,15 +1,17 @@
 <script>
 
-  import { get } from 'svelte/store';
   import Select from 'svelte-select';
+
+  import { get } from 'svelte/store';
   import { readable } from 'svelte/store';
 
-  import { getOrElse } from './util.js';
+  import { getOrElse, flatten } from './util.js';
 
   export let label;
   export let items;
   export let store;
   export let leading = false;
+  export let multi = false;
 
   // DONE: pickerITEMS needs to be reactive ($, not get()), pickerSTORE needs to NOT be
 
@@ -24,6 +26,22 @@
   let safeItems = readable(items);
   if (typeof items.subscribe == 'function') {
     safeItems = stupidStoreWrapper(items);
+  }
+
+  function getStoreSingle(items) {
+    return getOrElse(items.filter(i => i.value == get(store))[0], {"label": get(store), "value": get(store)})
+  }
+
+  function getStoreMulti(items) {
+    return getOrElse(items, []).filter(i => get(store).includes(i.value))
+  }
+
+  function setStoreSingle(selectorObject) {
+    return store.set(selectorObject.detail.value)
+  }
+
+  function setStoreMulti(selectorObject) {
+    return store.set(flatten(getOrElse(selectorObject.detail, []).map(elem => elem.value)))
   }
 
 </script>
@@ -79,9 +97,10 @@
   <div class="picker">
     <Select
       isClearable={false}
+      isMulti={multi}
       items={$safeItems}
-      selectedValue={getOrElse($safeItems.filter(i => i.value == get(store))[0], {"label": get(store), "value": get(store)})}
-      on:select={(item) => store.set(item.detail.value)}
+      selectedValue={(multi) ? getStoreMulti($safeItems) : getStoreSingle($safeItems)}
+      on:select={(multi) ? setStoreMulti : setStoreSingle}
     ></Select>
   </div>
 </div>
