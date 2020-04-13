@@ -13,38 +13,10 @@
 
 <style>
   .themed {
-    --borderRadius: 0px;
-    --itemPadding: 0px 0px 0px 16px;
-    --height: 36px;
-    --listMaxHeight: 300px;
-    --inputFontSize: 10pt;
-    --multiItemBorderRadius: 2px;
-    --multiItemHeight: 28px;
-    --multiClearTop: 6px;
-    --multiClearBG: rgba(0,0,0,0);
-    --multiClearFill: rgba(64,64,64,255);
-    --multiClearHoverBG: rgba(0,0,0,0);
-    --multiClearHoverFill: rgba(0,0,0,255);
-    --multiItemPadding: 0px 8px;
     font-size: 10pt;
     width: 100%;
     display: flex;
     padding-bottom: 12px;
-    text-align: left;
-  }
-  .nonselect {
-    background-color: #f2f2f2;
-    border-top: 1px solid #d0d0d0;
-    border-bottom: 1px solid #d0d0d0;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: left;
-    padding: 0 16px 0 16px;
-    vertical-align: top;
-  }
-  span {
-    white-space: nowrap;
   }
 
 </style>

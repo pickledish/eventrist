@@ -96,6 +96,7 @@
   </div>
   <div class="picker">
     <Select
+      placeholder={"(everything)"}
       isClearable={false}
       isMulti={multi}
       items={$safeItems}
