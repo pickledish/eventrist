@@ -12,6 +12,8 @@ tasks:
       - install
     input_paths:
       - main.py
+    environment:
+      PYTHONUNBUFFERED: "TRUE"
     command: >
       gunicorn
       --bind 0.0.0.0:80
