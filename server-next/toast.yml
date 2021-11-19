@@ -1,0 +1,25 @@
+image: python:3.10-slim
+tasks:
+  install:
+    input_paths:
+      - requirements.txt
+    command: >
+      pip install
+      --requirement requirements.txt
+  run:
+    cache: false
+    dependencies:
+      - install
+    input_paths:
+      - main.py
+    command: >
+      gunicorn
+      --bind 0.0.0.0:80
+      --workers 1
+      --worker-class uvicorn.workers.UvicornWorker
+      --log-level debug
+      --access-logfile -
+      --error-logfile -
+      main:app
+    ports:
+      - 8080:80
